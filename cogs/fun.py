@@ -8,6 +8,10 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @discord.slash_command(name='say')
+    async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)):
+        await ctx.respond()
+
     @discord.slash_command(name='meme')
     async def meme(self, ctx: discord.ApplicationContext):
         """Fetches a random meme."""
@@ -24,7 +28,7 @@ class fun(commands.Cog):
                     await ctx.respond(embed=discord.Embed(description="Could not fetch a meme at the moment.", color=discord.Color.red()))
 
     @discord.slash_command(name='8ball')
-    async def eight_ball(self, ctx: discord.ApplicationContext, *, question):
+    async def eight_ball(self, ctx: discord.ApplicationContext, question: discord.Option(str, description="What you want to ask the bot", required=True)):
         """Magic 8-ball answers your questions."""
         responses = ["Yes.", "No.", "Maybe.", "Absolutely.", "I don't think so.", "Ask again later."]
         
@@ -48,7 +52,7 @@ class fun(commands.Cog):
                     await ctx.respond(embed=discord.Embed(description="Couldn't fetch a joke right now.", color=discord.Color.red()))
 
     @discord.slash_command(name='roast')
-    async def roast(self, ctx: discord.ApplicationContext, member: discord.Member = None):
+    async def roast(self, ctx: discord.ApplicationContext, member: discord.Option(discord.Member, description="User you want to roast", required=True)):
         """Sends a roast to a user."""
         roasts = ["You're as bright as a black hole.", "If ignorance is bliss, you must be the happiest person alive.", "You bring everyone so much joy when you leave the room."]
         target = member.mention if member else "you"
@@ -58,7 +62,7 @@ class fun(commands.Cog):
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name='rate')
-    async def rate(self, ctx: discord.ApplicationContext, *, thing):
+    async def rate(self, ctx: discord.ApplicationContext, thing: discord.Option(str, description="Item to rate", required=True)):
         """Rates something out of 10."""
         rating = random.randint(1, 10)
         
@@ -76,14 +80,26 @@ class fun(commands.Cog):
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name='rps')
-    async def rps(self, ctx: discord.ApplicationContext, choice: str):
+    async def rps(self, ctx: discord.ApplicationContext):
         """Play Rock-Paper-Scissors with the bot."""
-        choices = ["rock", "paper", "scissors"]
-        bot_choice = random.choice(choices)
         
-        if choice not in choices:
-            embed = discord.Embed(description="Choose rock, paper, or scissors.", color=discord.Color.red())
-        else:
+        options = [
+            discord.SelectOption(label="Rock", value="rock", emoji="✊"),
+            discord.SelectOption(label="Paper", value="paper", emoji="✋"),
+            discord.SelectOption(label="Scissors", value="scissors", emoji="✌️")
+        ]
+        
+        select = discord.ui.Select(
+            placeholder="Choose rock, paper, or scissors",
+            options=options
+        )
+
+        async def select_callback(interaction: discord.Interaction):
+            choice = select.values[0]
+            choices = ["rock", "paper", "scissors"]
+            bot_choice = random.choice(choices)
+            
+            # Determine the outcome
             if choice == bot_choice:
                 outcome = "It's a tie!"
             elif (choice == "rock" and bot_choice == "scissors") or \
@@ -94,8 +110,15 @@ class fun(commands.Cog):
                 outcome = "I win!"
                 
             embed = discord.Embed(description=f"I chose {bot_choice}. {outcome}", color=discord.Color.gold())
-            
-        await ctx.respond(embed=embed)
+            await interaction.response.edit_message(embed=embed, view=None)
+
+        select.callback = select_callback
+
+        view = discord.ui.View()
+        view.add_item(select)
+        
+        embed = discord.Embed(description="Play Rock-Paper-Scissors with me! Choose an option below:", color=discord.Color.blue())
+        await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(name='joke')
     async def joke(self, ctx: discord.ApplicationContext):
@@ -111,14 +134,31 @@ class fun(commands.Cog):
                 else:
                     await ctx.respond(embed=discord.Embed(description="Couldn't fetch a joke right now.", color=discord.Color.red()))
 
-    @discord.slash_command(name='flip')
-    async def flip(self, ctx: discord.ApplicationContext):
+    @discord.slash_command(name='coinflip')
+    async def coinflip(self, ctx: discord.ApplicationContext):
         """Flips a coin."""
-        outcome = random.choice(["Heads", "Tails", "It lands on its side!"])
         
-        embed = discord.Embed(description=f"The coin shows: {outcome}", color=discord.Color.dark_gold())
+        options = [
+            discord.SelectOption(label="Flip the Coin", value="flip", emoji="🪙")
+        ]
         
-        await ctx.respond(embed=embed)
+        select = discord.ui.Select(
+            placeholder="Choose to flip the coin",
+            options=options
+        )
+
+        async def select_callback(interaction: discord.Interaction):
+            outcome = random.choice(["Heads", "Tails", "It lands on its side!"])
+            embed = discord.Embed(description=f"The coin shows: {outcome}", color=discord.Color.dark_gold())
+            await interaction.response.edit_message(embed=embed, view=None)
+
+        select.callback = select_callback
+
+        view = discord.ui.View()
+        view.add_item(select)
+        
+        embed = discord.Embed(description="Click below to flip the coin!", color=discord.Color.blue())
+        await ctx.respond(embed=embed, view=view)
     
     @discord.slash_command(name='randomcolor')
     async def random_color(self, ctx: discord.ApplicationContext):
