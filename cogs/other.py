@@ -22,20 +22,6 @@ class Other(discord.cog.Cog):
         
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name="say")
-    async def say(slef, ctx):
-        prebuilt_embed = discord.Embed(
-            title="💰 __**Referral Rewards**__ 💰",
-            description="**Invite your friends for a discount!** For each person you invite you get a 10% discount on your next purchase or monthly hosting fee. You can invite as many people as you like but the **max discount you can get is 30%.**",
-            color=discord.Color.from_rgb(0, 255, 255)  # Cyan color for the embed
-        )
-
-        prebuilt_embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
-        prebuilt_embed.timestamp = discord.utils.utcnow()
-        
-        await ctx.send(embed=prebuilt_embed)
-        await ctx.respond("Embed sent successfully!", ephemeral=True)
-
     @discord.slash_command(name="help", description="List all available commands")
     @commands.cooldown(1, 3, commands.BucketType.user) 
     async def help_command(self, ctx: discord.ApplicationContext):
