@@ -33,10 +33,13 @@ class Other(discord.cog.Cog):
         )
 
         options = [
-            discord.SelectOption(label="General Commands", description="View general bot commands", emoji="🛠️"),
-            discord.SelectOption(label="User Reports & Suggestions", description="View commands for reporting bugs and players", emoji="🐞"),
-            discord.SelectOption(label="Admin Features", description="View admin-only commands", emoji="🎉")
+            discord.SelectOption(label="General Commands", description="View general bot commands", emoji="<a:BreadSlice:1304913531887550594>"),
+            discord.SelectOption(label="Fun Commands", description="View fun and interactive commands", emoji="🎮"),
+            discord.SelectOption(label="Utility Commands", description="Miscellaneous commands for various utilities.", emoji="🔧"),
+            discord.SelectOption(label="Moderation Commands", description="View moderation tools", emoji="🔨"),
+            discord.SelectOption(label="Admin Commands", description="View admin-only commands", emoji="<:Moderator_Neon:1304913304912658542>"),
         ]
+
 
         select = discord.ui.Select(
             placeholder="Choose a category...",
@@ -54,17 +57,56 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/ping`", value="Check the bot's latency.", inline=False)
                 embed.add_field(name="`/help`", value="List all available commands.", inline=False)
 
-            elif select.values[0] == "User Reports & Suggestions":
+            elif select.values[0] == "Utility Commands":
                 embed.clear_fields()
-                embed.add_field(name="🐞 User Reports & Suggestions", value="━━━━━━━━━━━━━━━━━━", inline=False)
-                embed.add_field(name="`/suggest`", value="Suggest a feature.", inline=False)
-                embed.add_field(name="`/user_report`", value="Report a user.", inline=False)
+                embed.add_field(name="🔧 Utility Commands", value="━━━━━━━━━━━━━━━━━━", inline=False)
+                embed.add_field(name="`/uptime`", value="Check how long the bot has been running.", inline=False)
+                embed.add_field(name="`/userinfo`", value="Display information about a specific user.", inline=False)
+                embed.add_field(name="`/serverinfo`", value="Show server information.", inline=False)
+                embed.add_field(name="`/membercount`", value="Show the current server membercount.", inline=False)
+                embed.add_field(name="`/`", value="", inline=False)
+                embed.add_field(name="`/avatar`", value="Show the avatar of a user.", inline=False)
+                embed.add_field(name="`/reminder`", value="Set a reminder for yourself.", inline=False)
+                embed.add_field(name="`/calculate`", value="", inline=False)
+                embed.add_field(name="`/uuid`", value="Generate a random unique identifier.", inline=False)
 
-            elif select.values[0] == "Admin Features":
+            elif select.values[0] == "Moderation Commands":
                 embed.clear_fields()
-                embed.add_field(name="🎉 Admin Features", value="━━━━━━━━━━━━━━━━━━", inline=False)
-                embed.add_field(name="`/apply`", value="Get sent the staff app.", inline=False)
-                embed.add_field(name="`/setup_roles`", value="Send the self roles.", inline=False)
+                embed.add_field(name="🎉 Moderation Commands", value="━━━━━━━━━━━━━━━━━━", inline=False)
+                embed.add_field(name="`/ban`", value="Ban a user from the server.", inline=False)
+                embed.add_field(name="`/unban`", value="Unban a user from the server.", inline=False)
+                embed.add_field(name="`/kick`", value="Kick a user from the server.", inline=False)
+                embed.add_field(name="`/mute`", value="Mute a user.", inline=False)
+                embed.add_field(name="`/unmute`", value="Unmute a user.", inline=False)
+                embed.add_field(name="`/warn`", value="Warn a user.", inline=False)
+                embed.add_field(name="`/rem_warn`", value="Remove a warn from a user.", inline=False)
+                embed.add_field(name="`/lock`", value="Lock the current channel", inline=False)
+                embed.add_field(name="`/unlock`", value="Unlock the current channel.", inline=False)
+
+            elif select.values[0] == "Admin Commands":
+                embed.clear_fields()
+                embed.add_field(name="🎉 Admin Commands", value="━━━━━━━━━━━━━━━━━━", inline=False)
+                embed.add_field(name="`/shutdown`", value="Turn the bot off.", inline=False)
+                embed.add_field(name="`/setup_roles`", value="Send the self roles menu.", inline=False)
+                embed.add_field(name="`/setup_tickets`", value="Setup tickets.", inline=False)
+
+            elif select.values[0] == "Fun Commands":
+                embed.clear_fields()
+                embed.add_field(name="🎲 Fun Commands", value="━━━━━━━━━━━━━━━━━━", inline=False)
+                embed.add_field(name="`/meme`", value="Get a random meme.", inline=False)
+                embed.add_field(name="`/8ball`", value="Ask the magic 8-ball a question.", inline=False)
+                embed.add_field(name="`/dadjoke`", value="Receive a random dad joke.", inline=False)
+                embed.add_field(name="`/roast`", value="Get roasted by the bot.", inline=False)
+                embed.add_field(name="`/rate`", value="Rate something out of 10.", inline=False)
+                embed.add_field(name="`/truth_or_dare`", value="Play a truth or dare game.", inline=False)
+                embed.add_field(name="`/horoscope`", value="Get today's horoscope.", inline=False)
+                embed.add_field(name="`/rps`", value="Play Rock-Paper-Scissors with the bot.", inline=False)
+                embed.add_field(name="`/joke`", value="Hear a random joke.", inline=False)
+                embed.add_field(name="`/flip`", value="Flip a coin.", inline=False)
+                embed.add_field(name="`/randomcolor`", value="Get a random color.", inline=False)
+                embed.add_field(name="`/guessnumber`", value="Play a number guessing game.", inline=False)
+                embed.add_field(name="`/quotes`", value="Get a random quote.", inline=False)
+                embed.add_field(name="`/waifu`", value="Get a random waifu image.", inline=False)
 
             await interaction.response.edit_message(embed=embed, view=view)
 
