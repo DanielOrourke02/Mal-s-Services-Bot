@@ -25,7 +25,21 @@ cogs = [
     'cogs.self_roles',
     'cogs.fun',
     'cogs.verify',
+    'cogs.mod',
+    'cogs.utility',
 ]
+
+@discord.slash_command(name='shutdown')
+@commands.is_owner()
+async def shutdown(self, ctx: discord.ApplicationContext):
+    """Shut down the bot."""
+    embed = discord.Embed(
+        title="Shutdown",
+        description="Shutting down the bot...",
+        color=discord.Color.red()
+    )
+    await ctx.respond(embed=embed)
+    await bot.close()
 
 for cog in cogs:
     try:
@@ -33,4 +47,4 @@ for cog in cogs:
     except Exception as e:
         print(e)
         
-bot.run("token")
+bot.run("TOKEN")

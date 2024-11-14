@@ -64,7 +64,6 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/userinfo`", value="Display information about a specific user.", inline=False)
                 embed.add_field(name="`/serverinfo`", value="Show server information.", inline=False)
                 embed.add_field(name="`/membercount`", value="Show the current server membercount.", inline=False)
-                embed.add_field(name="`/`", value="", inline=False)
                 embed.add_field(name="`/avatar`", value="Show the avatar of a user.", inline=False)
                 embed.add_field(name="`/reminder`", value="Set a reminder for yourself.", inline=False)
                 embed.add_field(name="`/calculate`", value="", inline=False)
@@ -78,10 +77,10 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/kick`", value="Kick a user from the server.", inline=False)
                 embed.add_field(name="`/mute`", value="Mute a user.", inline=False)
                 embed.add_field(name="`/unmute`", value="Unmute a user.", inline=False)
-                embed.add_field(name="`/warn`", value="Warn a user.", inline=False)
-                embed.add_field(name="`/rem_warn`", value="Remove a warn from a user.", inline=False)
-                embed.add_field(name="`/lock`", value="Lock the current channel", inline=False)
+                embed.add_field(name="`/lock`", value="Lock the current channel.", inline=False)
                 embed.add_field(name="`/unlock`", value="Unlock the current channel.", inline=False)
+                embed.add_field(name="`/serverlock`", value="Lock the server.", inline=False)
+                embed.add_field(name="`/serverunlock`", value="Unlock the server.", inline=False)
 
             elif select.values[0] == "Admin Commands":
                 embed.clear_fields()
