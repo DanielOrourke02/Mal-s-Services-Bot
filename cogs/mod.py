@@ -101,17 +101,17 @@ class Moderator(commands.Cog):
     @discord.slash_command(name='lock')
     @commands.has_permissions(administrator=True)
     async def lock(
-        self, 
-        ctx: discord.ApplicationContext, 
+        self,
+        ctx: discord.ApplicationContext,
         channel: discord.Option(discord.TextChannel, "Select a channel to lock", required=False)
     ):
-        """Lock a channel for a specific role."""
+        """Lock a channel for a specific role (disables sending messages and typing)."""
         channel = channel or ctx.channel
         role = ctx.guild.get_role(ROLE_ID)
-        await channel.set_permissions(role, send_messages=False)
+        await channel.set_permissions(role, send_messages=False, send_messages_in_threads=False, add_reactions=False)
         embed = discord.Embed(
             title="Channel Locked",
-            description=f"{channel.mention} has been locked for {role.mention}.",
+            description=f"{channel.mention} has been locked for {role.mention}. Typing and messaging are disabled.",
             color=discord.Color.red()
         )
         await ctx.respond(embed=embed)
@@ -119,17 +119,17 @@ class Moderator(commands.Cog):
     @discord.slash_command(name='unlock')
     @commands.has_permissions(administrator=True)
     async def unlock(
-        self, 
-        ctx: discord.ApplicationContext, 
+        self,
+        ctx: discord.ApplicationContext,
         channel: discord.Option(discord.TextChannel, "Select a channel to unlock", required=False)
     ):
-        """Unlock a channel for a specific role."""
+        """Unlock a channel for a specific role (enables sending messages and typing)."""
         channel = channel or ctx.channel
         role = ctx.guild.get_role(ROLE_ID)
-        await channel.set_permissions(role, send_messages=True)
+        await channel.set_permissions(role, send_messages=True, send_messages_in_threads=True, add_reactions=True)
         embed = discord.Embed(
             title="Channel Unlocked",
-            description=f"{channel.mention} has been unlocked for {role.mention}.",
+            description=f"{channel.mention} has been unlocked for {role.mention}. Typing and messaging are enabled.",
             color=discord.Color.green()
         )
         await ctx.respond(embed=embed)
@@ -140,10 +140,11 @@ class Moderator(commands.Cog):
         """Lock all channels in the server for a specific role."""
         role = ctx.guild.get_role(ROLE_ID)
         for channel in ctx.guild.channels:
-            await channel.set_permissions(role, send_messages=False)
+            if isinstance(channel, discord.TextChannel):
+                await channel.set_permissions(role, send_messages=False, send_messages_in_threads=False, add_reactions=False)
         embed = discord.Embed(
             title="Server Locked",
-            description=f"All channels have been locked for {role.mention}.",
+            description=f"All channels have been locked for {role.mention}. Typing and messaging are disabled.",
             color=discord.Color.red()
         )
         await ctx.respond(embed=embed)
@@ -154,10 +155,11 @@ class Moderator(commands.Cog):
         """Unlock all channels in the server for a specific role."""
         role = ctx.guild.get_role(ROLE_ID)
         for channel in ctx.guild.channels:
-            await channel.set_permissions(role, send_messages=True)
+            if isinstance(channel, discord.TextChannel):
+                await channel.set_permissions(role, send_messages=True, send_messages_in_threads=True, add_reactions=True)
         embed = discord.Embed(
             title="Server Unlocked",
-            description=f"All channels have been unlocked for {role.mention}.",
+            description=f"All channels have been unlocked for {role.mention}. Typing and messaging are enabled.",
             color=discord.Color.green()
         )
         await ctx.respond(embed=embed)
