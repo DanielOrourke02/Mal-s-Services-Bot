@@ -11,6 +11,8 @@ python -m venv venv
 pip install py-cord
 ```
 
+then run the file obv
+
 ## Linux Installation
 
 ```
@@ -19,3 +21,5 @@ cd Mal-s-Services-Bot
 python3 -m venv venv
 pip install py-cord
 ```
+
+then run the file obv
