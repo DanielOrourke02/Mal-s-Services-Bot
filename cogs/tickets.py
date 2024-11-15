@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands
 
-PURCHASE_CATEGORY_ID = 123
-FAQ_CATEGORY_ID = 123
-OTHER_CATEGORY_ID = 123
+PURCHASE_CATEGORY_ID = 1307085222457901136
+FAQ_CATEGORY_ID = 1307090109589356544
+OTHER_CATEGORY_ID = 1307090153155723377
 
 class ConfirmCloseView(discord.ui.View):
     def __init__(self, ctx):
