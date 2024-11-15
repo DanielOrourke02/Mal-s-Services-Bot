@@ -44,8 +44,6 @@ class VerificationView(discord.ui.View):
         else:
             await interaction.response.send_message("Please select 'verify' in the selection menu!", ephemeral=True)
 
-
-
 class Verify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
