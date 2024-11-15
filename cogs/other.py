@@ -66,7 +66,7 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/membercount`", value="Show the current server membercount.", inline=False)
                 embed.add_field(name="`/avatar`", value="Show the avatar of a user.", inline=False)
                 embed.add_field(name="`/reminder`", value="Set a reminder for yourself.", inline=False)
-                embed.add_field(name="`/calculate`", value="", inline=False)
+                embed.add_field(name="`/calculate`", value="Calculate something.", inline=False)
                 embed.add_field(name="`/uuid`", value="Generate a random unique identifier.", inline=False)
 
             elif select.values[0] == "Moderation Commands":
@@ -98,10 +98,8 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/roast`", value="Get roasted by the bot.", inline=False)
                 embed.add_field(name="`/rate`", value="Rate something out of 10.", inline=False)
                 embed.add_field(name="`/truth_or_dare`", value="Play a truth or dare game.", inline=False)
-                embed.add_field(name="`/horoscope`", value="Get today's horoscope.", inline=False)
                 embed.add_field(name="`/rps`", value="Play Rock-Paper-Scissors with the bot.", inline=False)
                 embed.add_field(name="`/joke`", value="Hear a random joke.", inline=False)
-                embed.add_field(name="`/flip`", value="Flip a coin.", inline=False)
                 embed.add_field(name="`/randomcolor`", value="Get a random color.", inline=False)
                 embed.add_field(name="`/guessnumber`", value="Play a number guessing game.", inline=False)
                 embed.add_field(name="`/quotes`", value="Get a random quote.", inline=False)

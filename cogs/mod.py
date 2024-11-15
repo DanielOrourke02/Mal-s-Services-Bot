@@ -2,7 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 
-ROLE_ID = 123  # Placeholder for the specific role ID
+ROLE_ID = 1195702107215511603
 
 class Moderator(commands.Cog):
     def __init__(self, bot):

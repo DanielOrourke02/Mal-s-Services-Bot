@@ -133,32 +133,6 @@ class fun(commands.Cog):
                     await ctx.respond(embed=embed)
                 else:
                     await ctx.respond(embed=discord.Embed(description="Couldn't fetch a joke right now.", color=discord.Color.red()))
-
-    @discord.slash_command(name='coinflip')
-    async def coinflip(self, ctx: discord.ApplicationContext):
-        """Flips a coin."""
-        
-        options = [
-            discord.SelectOption(label="Flip the Coin", value="flip", emoji="🪙")
-        ]
-        
-        select = discord.ui.Select(
-            placeholder="Choose to flip the coin",
-            options=options
-        )
-
-        async def select_callback(interaction: discord.Interaction):
-            outcome = random.choice(["Heads", "Tails", "It lands on its side!"])
-            embed = discord.Embed(description=f"The coin shows: {outcome}", color=discord.Color.dark_gold())
-            await interaction.response.edit_message(embed=embed, view=None)
-
-        select.callback = select_callback
-
-        view = discord.ui.View()
-        view.add_item(select)
-        
-        embed = discord.Embed(description="Click below to flip the coin!", color=discord.Color.blue())
-        await ctx.respond(embed=embed, view=view)
     
     @discord.slash_command(name='randomcolor')
     async def random_color(self, ctx: discord.ApplicationContext):
