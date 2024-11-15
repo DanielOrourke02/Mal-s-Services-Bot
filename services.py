@@ -19,15 +19,36 @@ async def on_application_command_error(ctx, error: discord.DiscordException):
     else:
         raise error
 
-cogs = [
-    'cogs.tickets',
-    'cogs.other',
-    'cogs.self_roles',
-    'cogs.fun',
-    'cogs.verify',
-    'cogs.mod',
-    'cogs.utility',
-]
+@bot.event
+async def on_member_join(member: discord.Member):
+    ping_channel_id = 1195705856642261022
+    welcome_channel_id = 1196022863430418523
+
+    ping_channel = member.guild.get_channel(ping_channel_id)
+    welcome_channel = member.guild.get_channel(welcome_channel_id)
+
+    if ping_channel:
+        ping_message = await ping_channel.send(f"{member.mention}")
+        await discord.utils.sleep_until(ping_message.created_at + discord.utils.timedelta(seconds=3))
+        await ping_message.delete()
+
+    if welcome_channel:
+        member_count = len([m for m in member.guild.members if not m.bot])
+        suffix = "th" if 4 <= member_count % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(member_count % 10, "th")
+
+        embed = discord.Embed(
+            title="🎉 Welcome to the Server! 🎉",
+            description=f"Hi {member.mention}. You are our {member_count}{suffix} member!",
+            color=discord.Color.gold()
+        )
+
+        avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
+        embed.set_thumbnail(url=avatar_url)
+
+        embed.set_footer(text=f"User ID: {member.id}")
+        await welcome_channel.send(embed=embed)
+
+
 
 @discord.slash_command(name='shutdown')
 @commands.is_owner()
@@ -40,6 +61,16 @@ async def shutdown(self, ctx: discord.ApplicationContext):
     )
     await ctx.respond(embed=embed)
     await bot.close()
+
+cogs = [
+    'cogs.tickets',
+    'cogs.other',
+    'cogs.self_roles',
+    'cogs.fun',
+    'cogs.verify',
+    'cogs.mod',
+    'cogs.utility',
+]
 
 for cog in cogs:
     try:
