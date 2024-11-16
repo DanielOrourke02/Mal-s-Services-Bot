@@ -51,7 +51,7 @@ async def on_member_join(member: discord.Member):
         embed.set_footer(text=f"User ID: {member.id}")
         await welcome_channel.send(embed=embed)
 
-@discord.slash_command(name='shutdown')
+@bot.slash_command(name='shutdown')
 @commands.is_owner()
 async def shutdown(self, ctx: discord.ApplicationContext):
     """Shut down the bot."""
@@ -63,7 +63,7 @@ async def shutdown(self, ctx: discord.ApplicationContext):
     await ctx.respond(embed=embed)
     await bot.close()
 
-@discord.slash_command(name="uptime")
+@bot.slash_command(name='uptime')
 async def uptime(self, ctx: discord.ApplicationContext):
     """Check how long the bot has been running."""
     now = datetime.datetime.now()
