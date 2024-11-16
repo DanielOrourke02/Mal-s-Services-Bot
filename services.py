@@ -4,8 +4,6 @@ from discord.ext import commands
 
 bot = discord.Bot(intents=discord.Intents.default())
 
-start_time = datetime.datetime.now()
-
 @bot.event
 async def on_ready():
     print(f"\nWe have logged in as: {bot.user.display_name}")
@@ -53,7 +51,7 @@ async def on_member_join(member: discord.Member):
 
 @bot.slash_command(name='shutdown')
 @commands.is_owner()
-async def shutdown(self, ctx: discord.ApplicationContext):
+async def shutdown(ctx: discord.ApplicationContext):
     """Shut down the bot."""
     embed = discord.Embed(
         title="Shutdown",
@@ -63,8 +61,10 @@ async def shutdown(self, ctx: discord.ApplicationContext):
     await ctx.respond(embed=embed)
     await bot.close()
 
+start_time = datetime.datetime.now()
+
 @bot.slash_command(name='uptime')
-async def uptime(self, ctx: discord.ApplicationContext):
+async def uptime(ctx: discord.ApplicationContext):
     """Check how long the bot has been running."""
     now = datetime.datetime.now()
 
