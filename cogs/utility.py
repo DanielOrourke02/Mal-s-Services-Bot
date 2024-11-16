@@ -9,13 +9,23 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+class Utility(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
     @discord.slash_command(name="uptime")
     async def uptime(self, ctx: discord.ApplicationContext):
         """Check how long the bot has been running."""
-        delta = datetime.datetime.now() - self.bot.start_time
+        now = datetime.datetime.now()
+        delta = now - self.bot.start_time
+        days, remainder = divmod(delta.total_seconds(), 86400)
+        hours, remainder = divmod(remainder, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        formatted_uptime = f"{int(days)}d {int(hours)}h {int(minutes)}m {int(seconds)}s"
         embed = discord.Embed(
-            title="Bot Uptime",
-            description=f"The bot has been running for {delta}.",
+            title="⏱ Bot Uptime",
+            description=f"The bot has been running for **{formatted_uptime}**.",
             color=discord.Color.blurple()
         )
         await ctx.respond(embed=embed)
@@ -29,13 +39,16 @@ class Utility(commands.Cog):
         """Display information about a specific user."""
         member = member or ctx.author
         embed = discord.Embed(
-            title=f"User Information - {member}",
-            color=discord.Color.green()
+            title=f"👤 User Information: {member.display_name}",
+            color=discord.Color.green(),
+            timestamp=datetime.datetime.now()
         )
-        embed.set_thumbnail(url=member.avatar.url)
-        embed.add_field(name="ID", value=member.id, inline=False)
-        embed.add_field(name="Joined Server", value=member.joined_at.strftime("%Y-%m-%d"), inline=False)
-        embed.add_field(name="Account Created", value=member.created_at.strftime("%Y-%m-%d"), inline=False)
+        embed.set_thumbnail(url=member.avatar.url if member.avatar else member.default_avatar.url)
+        embed.add_field(name="🆔 ID", value=member.id, inline=True)
+        embed.add_field(name="📅 Joined Server", value=member.joined_at.strftime("%B %d, %Y"), inline=True)
+        embed.add_field(name="📅 Account Created", value=member.created_at.strftime("%B %d, %Y"), inline=True)
+        embed.add_field(name="🎭 Roles", value=", ".join([role.mention for role in member.roles[1:]]) or "None", inline=False)
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name="serverinfo")
@@ -43,14 +56,22 @@ class Utility(commands.Cog):
         """Show server information."""
         guild = ctx.guild
         embed = discord.Embed(
-            title=f"Server Information - {guild.name}",
-            color=discord.Color.blue()
+            title=f"📊 Server Information: {guild.name}",
+            color=discord.Color.blue(),
+            timestamp=datetime.datetime.now()
         )
-        embed.set_thumbnail(url=guild.icon.url)
-        embed.add_field(name="Server ID", value=guild.id, inline=False)
-        embed.add_field(name="Owner", value=guild.owner, inline=False)
-        embed.add_field(name="Member Count", value=guild.member_count, inline=False)
-        embed.add_field(name="Created On", value=guild.created_at.strftime("%Y-%m-%d"), inline=False)
+        embed.set_thumbnail(url=guild.icon.url if guild.icon else "")
+        embed.add_field(name="🆔 Server ID", value=guild.id, inline=True)
+        embed.add_field(name="👑 Owner", value=guild.owner.mention if guild.owner else "Unknown", inline=True)
+        embed.add_field(name="👥 Member Count", value=guild.member_count, inline=True)
+        embed.add_field(name="📅 Created On", value=guild.created_at.strftime("%B %d, %Y"), inline=True)
+        embed.add_field(
+            name="📂 Channels",
+            value=f"Text: {len(guild.text_channels)} | Voice: {len(guild.voice_channels)}",
+            inline=True
+        )
+        embed.add_field(name="🌍 Region", value=str(guild.region).title(), inline=True)
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name="membercount")
