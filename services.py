@@ -1,7 +1,10 @@
 import discord
+import datetime
 from discord.ext import commands
 
 bot = discord.Bot(intents=discord.Intents.default())
+
+start_time = datetime.datetime.now()
 
 @bot.event
 async def on_ready():
@@ -48,8 +51,6 @@ async def on_member_join(member: discord.Member):
         embed.set_footer(text=f"User ID: {member.id}")
         await welcome_channel.send(embed=embed)
 
-
-
 @discord.slash_command(name='shutdown')
 @commands.is_owner()
 async def shutdown(self, ctx: discord.ApplicationContext):
@@ -61,6 +62,25 @@ async def shutdown(self, ctx: discord.ApplicationContext):
     )
     await ctx.respond(embed=embed)
     await bot.close()
+
+@discord.slash_command(name="uptime")
+async def uptime(self, ctx: discord.ApplicationContext):
+    """Check how long the bot has been running."""
+    now = datetime.datetime.now()
+
+    delta = now - start_time
+    days, remainder = divmod(delta.total_seconds(), 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    formatted_uptime = f"{int(days)}d {int(hours)}h {int(minutes)}m {int(seconds)}s"
+    embed = discord.Embed(
+        title="⏱ Bot Uptime",
+        description=f"The bot has been running for **{formatted_uptime}**.",
+        color=discord.Color.blurple()
+    )
+    await ctx.respond(embed=embed)
+
 
 cogs = [
     'cogs.tickets',

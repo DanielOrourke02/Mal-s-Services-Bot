@@ -13,23 +13,6 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name="uptime")
-    async def uptime(self, ctx: discord.ApplicationContext):
-        """Check how long the bot has been running."""
-        now = datetime.datetime.now()
-        delta = now - self.bot.start_time
-        days, remainder = divmod(delta.total_seconds(), 86400)
-        hours, remainder = divmod(remainder, 3600)
-        minutes, seconds = divmod(remainder, 60)
-
-        formatted_uptime = f"{int(days)}d {int(hours)}h {int(minutes)}m {int(seconds)}s"
-        embed = discord.Embed(
-            title="⏱ Bot Uptime",
-            description=f"The bot has been running for **{formatted_uptime}**.",
-            color=discord.Color.blurple()
-        )
-        await ctx.respond(embed=embed)
-
     @discord.slash_command(name="userinfo")
     async def userinfo(
         self, 
