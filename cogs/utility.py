@@ -70,7 +70,6 @@ class Utility(commands.Cog):
             value=f"Text: {len(guild.text_channels)} | Voice: {len(guild.voice_channels)}",
             inline=True
         )
-        embed.add_field(name="🌍 Region", value=str(guild.region).title(), inline=True)
         embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
         await ctx.respond(embed=embed)
 
