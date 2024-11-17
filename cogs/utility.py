@@ -1,19 +1,16 @@
 import discord
 from discord.ext import commands
-import random
 import uuid
 import datetime
 import asyncio
+import qrcode
+from io import BytesIO
 
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-class Utility(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @discord.slash_command(name="userinfo")
+    @discord.slash_command(name="userinfo", description="Display information about a specific user.")
     async def userinfo(
         self, 
         ctx: discord.ApplicationContext, 
@@ -34,7 +31,7 @@ class Utility(commands.Cog):
         embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name="serverinfo")
+    @discord.slash_command(name="serverinfo", description="Show server information.")
     async def serverinfo(self, ctx: discord.ApplicationContext):
         """Show server information."""
         guild = ctx.guild
@@ -56,7 +53,7 @@ class Utility(commands.Cog):
         embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name="membercount")
+    @discord.slash_command(name="membercount", description="Show the current server member count.")
     async def membercount(self, ctx: discord.ApplicationContext):
         """Show the current server member count."""
         embed = discord.Embed(
@@ -66,7 +63,7 @@ class Utility(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name="avatar")
+    @discord.slash_command(name="avatar", description="Show the avatar of a user.")
     async def avatar(
         self, 
         ctx: discord.ApplicationContext, 
@@ -81,12 +78,12 @@ class Utility(commands.Cog):
         embed.set_image(url=member.avatar.url)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name="reminder")
+    @discord.slash_command(name="reminder", description="Set a reminder for yourself (time in minutes).")
     async def reminder(
         self, 
         ctx: discord.ApplicationContext, 
-        time: discord.Option(int, "Time in minutes"), 
-        message: discord.Option(str, "Reminder message")
+        time: discord.Option(int, "Time in minutes", required=True), 
+        message: discord.Option(str, "Reminder message", required=True)
     ):
         """Set a reminder for yourself (time in minutes)."""
         embed = discord.Embed(
@@ -103,11 +100,11 @@ class Utility(commands.Cog):
         )
         await ctx.author.send(embed=reminder_embed)
 
-    @discord.slash_command(name="calculate")
+    @discord.slash_command(name="calculate", description="Evaluate a simple math expression.")
     async def calculate(
         self, 
         ctx: discord.ApplicationContext, 
-        expression: discord.Option(str, "Math expression to evaluate")
+        expression: discord.Option(str, "Math expression to evaluate", required=True)
     ):
         """Evaluate a simple math expression."""
         try:
@@ -121,7 +118,7 @@ class Utility(commands.Cog):
         except Exception:
             await ctx.respond("Invalid expression.", ephemeral=True)
 
-    @discord.slash_command(name="uuid")
+    @discord.slash_command(name="uuid", description="Generate a random unique identifier.")
     async def uuid(self, ctx: discord.ApplicationContext):
         """Generate a random unique identifier."""
         unique_id = uuid.uuid4()
@@ -132,6 +129,27 @@ class Utility(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
+    @discord.slash_command(name="qrcode", description="Generate a QR code from a provided link.")
+    async def qrcode(self, ctx: discord.ApplicationContext, link: discord.Option(str, "URL to generate QR code for", required=True)):
+        """Generate a QR code from a provided link."""
+        buffer = BytesIO()
+        img = qrcode.make(link)
+        img.save(buffer, format="PNG")
+        buffer.seek(0)
+
+        file = discord.File(buffer, filename="qrcode.png")
+        embed = discord.Embed(
+            title="QR Code",
+            description=f"Here is the QR code for [this link]({link}).",
+            color=discord.Color.green()
+        )
+        embed.set_image(url="attachment://qrcode.png")
+        await ctx.respond(embed=embed, file=file)
+
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'Utility Cog Loaded!')
 
 def setup(bot):
     bot.add_cog(Utility(bot))

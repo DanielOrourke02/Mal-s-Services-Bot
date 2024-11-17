@@ -68,6 +68,7 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/reminder`", value="Set a reminder for yourself.", inline=False)
                 embed.add_field(name="`/calculate`", value="Calculate something.", inline=False)
                 embed.add_field(name="`/uuid`", value="Generate a random unique identifier.", inline=False)
+                embed.add_field(name="`/qrcode`", value="Generate a QR code from a provided link.", inline=False)
 
             elif select.values[0] == "Moderation Commands":
                 embed.clear_fields()
