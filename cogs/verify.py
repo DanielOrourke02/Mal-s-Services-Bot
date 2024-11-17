@@ -49,6 +49,7 @@ class Verify(commands.Cog):
         self.bot = bot
     
     @discord.slash_command(name="send_verify")
+    @commands.has_permissions(administrator=True)
     async def send_verify(self, ctx: discord.ApplicationContext):
         embed = discord.Embed(
             title="<:twittercheck:1302398993367699466> __**Verification**__ <:twittercheck:1302398993367699466>",
@@ -59,6 +60,15 @@ class Verify(commands.Cog):
         embed.timestamp = discord.utils.utcnow()
         
         await ctx.send(embed=embed, view=VerificationView(self.bot, ctx))
+            
+    @send_verify.error
+    async def send_send_verify_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            error_embed = discord.Embed(
+                description="<a:denied:1302388701422288957> You do not have permission to use this command.",
+                color=discord.Color.red()
+            )
+            await ctx.respond(embed=error_embed)
 
     @commands.Cog.listener()
     async def on_ready(self):
