@@ -193,15 +193,6 @@ class Tickets(commands.Cog):
             await ctx.send(embed=embed, view=view)
         except Exception as e:
             print(e)
-
-    @tickets_setup.error
-    async def send_tickets_setup_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            error_embed = discord.Embed(
-                description="<a:denied:1302388701422288957> You do not have permission to use this command.",
-                color=discord.Color.red()
-            )
-            await ctx.respond(embed=error_embed)
             
     @discord.slash_command(name="close", description="Closes the current ticket channel")
     async def close(self, ctx):
@@ -247,15 +238,6 @@ class Tickets(commands.Cog):
                 color=discord.Color.red()
             )
             await ctx.respond(embed=embed, ephemeral=True)
-            
-    @add.error
-    async def send_add_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            error_embed = discord.Embed(
-                description="<a:denied:1302388701422288957> You do not have permission to use this command.",
-                color=discord.Color.red()
-            )
-            await ctx.respond(embed=error_embed)
     
     @discord.slash_command(name='remove')
     @commands.has_permissions(administrator=True)
@@ -279,14 +261,14 @@ class Tickets(commands.Cog):
             )
             await ctx.respond(embed=embed, ephemeral=True)
 
-    @remove.error
-    async def send_remove_error(self, ctx, error):
+    @commands.Cog.listener()
+    async def on_application_command_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            error_embed = discord.Embed(
+            embed = discord.Embed(
                 description="<a:denied:1302388701422288957> You do not have permission to use this command.",
                 color=discord.Color.red()
             )
-            await ctx.respond(embed=error_embed)
+            await ctx.respond(embed=embed, ephemeral=True)
 
     @commands.Cog.listener()
     async def on_ready(self):

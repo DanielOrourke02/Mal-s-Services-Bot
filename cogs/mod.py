@@ -13,7 +13,7 @@ class Moderator(commands.Cog):
     async def ban(
         self, 
         ctx: discord.ApplicationContext, 
-        member: discord.Option(discord.Member, "Select a member to ban"), 
+        member: discord.Option(discord.Member, "Select a member to ban", required=True), 
         reason: discord.Option(str, "Reason for the ban", default="No reason provided")
     ):
         """Ban a member from the server."""
@@ -26,28 +26,12 @@ class Moderator(commands.Cog):
         embed.add_field(name="Reason", value=reason, inline=False)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='unban')
-    @commands.has_permissions(administrator=True)
-    async def unban(
-        self, 
-        ctx: discord.ApplicationContext, 
-        user: discord.Option(discord.User, "Select a user to unban")
-    ):
-        """Unban a user from the server."""
-        await ctx.guild.unban(user)
-        embed = discord.Embed(
-            title="User Unbanned",
-            description=f"{user.mention} has been unbanned.",
-            color=discord.Color.green()
-        )
-        await ctx.respond(embed=embed)
-
     @discord.slash_command(name='kick')
     @commands.has_permissions(administrator=True)
     async def kick(
         self, 
         ctx: discord.ApplicationContext, 
-        member: discord.Option(discord.Member, "Select a member to kick"), 
+        member: discord.Option(discord.Member, "Select a member to kick", required=True), 
         reason: discord.Option(str, "Reason for the kick", default="No reason provided")
     ):
         """Kick a member from the server."""
@@ -65,8 +49,8 @@ class Moderator(commands.Cog):
     async def mute(
         self, 
         ctx: discord.ApplicationContext, 
-        member: discord.Option(discord.Member, "Select a member to mute"), 
-        duration: discord.Option(int, "Duration of mute in minutes")
+        member: discord.Option(discord.Member, "Select a member to mute", required=True), 
+        duration: discord.Option(int, "Duration of mute in minutes", required=True)
     ):
         """Mute a member for a specified number of minutes."""
         muted_role = discord.utils.get(ctx.guild.roles, name="Muted")
@@ -163,6 +147,15 @@ class Moderator(commands.Cog):
             color=discord.Color.green()
         )
         await ctx.respond(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_application_command_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(
+                description="<a:denied:1302388701422288957> You do not have permission to use this command.",
+                color=discord.Color.red()
+            )
+            await ctx.respond(embed=embed, ephemeral=True)
 
     @commands.Cog.listener()
     async def on_ready(self):
