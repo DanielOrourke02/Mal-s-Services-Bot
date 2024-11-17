@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  Echo Bot v5
+  Mal's Services Bot
   <br>
 </h1>
 
