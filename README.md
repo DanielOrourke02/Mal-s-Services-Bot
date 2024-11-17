@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/0063b5e0-02a9-4d8b-9e69-a4840f7289fc" alt="Echo Bot Image" width="400">
+</div>
+
+
 <h1 align="center">
   <br>
   Mal's Services Bot
