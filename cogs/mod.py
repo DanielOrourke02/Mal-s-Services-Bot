@@ -8,7 +8,7 @@ class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name='ban')
+    @discord.slash_command(name='ban', description="Ban a member from the server.")
     @commands.has_permissions(administrator=True)
     async def ban(
         self, 
@@ -16,7 +16,6 @@ class Moderator(commands.Cog):
         member: discord.Option(discord.Member, "Select a member to ban", required=True), 
         reason: discord.Option(str, "Reason for the ban", default="No reason provided")
     ):
-        """Ban a member from the server."""
         await member.ban(reason=reason)
         embed = discord.Embed(
             title="User Banned",
@@ -26,7 +25,7 @@ class Moderator(commands.Cog):
         embed.add_field(name="Reason", value=reason, inline=False)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='kick')
+    @discord.slash_command(name='kick', description="Kick a member from the server.")
     @commands.has_permissions(administrator=True)
     async def kick(
         self, 
@@ -34,7 +33,6 @@ class Moderator(commands.Cog):
         member: discord.Option(discord.Member, "Select a member to kick", required=True), 
         reason: discord.Option(str, "Reason for the kick", default="No reason provided")
     ):
-        """Kick a member from the server."""
         await member.kick(reason=reason)
         embed = discord.Embed(
             title="User Kicked",
@@ -44,7 +42,7 @@ class Moderator(commands.Cog):
         embed.add_field(name="Reason", value=reason, inline=False)
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='mute')
+    @discord.slash_command(name='mute', description="Mute a member for a specified number of minutes.")
     @commands.has_permissions(administrator=True)
     async def mute(
         self, 
@@ -52,7 +50,6 @@ class Moderator(commands.Cog):
         member: discord.Option(discord.Member, "Select a member to mute", required=True), 
         duration: discord.Option(int, "Duration of mute in minutes", required=True)
     ):
-        """Mute a member for a specified number of minutes."""
         muted_role = discord.utils.get(ctx.guild.roles, name="Muted")
         await member.add_roles(muted_role)
         embed = discord.Embed(
@@ -65,14 +62,13 @@ class Moderator(commands.Cog):
         await asyncio.sleep(duration * 60)
         await member.remove_roles(muted_role)
 
-    @discord.slash_command(name='unmute')
+    @discord.slash_command(name='unmute', description="Unmute a member.")
     @commands.has_permissions(administrator=True)
     async def unmute(
         self, 
         ctx: discord.ApplicationContext, 
         member: discord.Option(discord.Member, "Select a member to unmute")
     ):
-        """Unmute a member."""
         muted_role = discord.utils.get(ctx.guild.roles, name="Muted")
         await member.remove_roles(muted_role)
         embed = discord.Embed(
@@ -82,14 +78,13 @@ class Moderator(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='lock')
+    @discord.slash_command(name='lock', description="Lock a channel for a specific role.")
     @commands.has_permissions(administrator=True)
     async def lock(
         self,
         ctx: discord.ApplicationContext,
         channel: discord.Option(discord.TextChannel, "Select a channel to lock", required=False)
     ):
-        """Lock a channel for a specific role (disables sending messages and typing)."""
         channel = channel or ctx.channel
         role = ctx.guild.get_role(ROLE_ID)
         await channel.set_permissions(role, send_messages=False, send_messages_in_threads=False, add_reactions=False)
@@ -100,14 +95,13 @@ class Moderator(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='unlock')
+    @discord.slash_command(name='unlock', description="Unlock a channel for a specific role.")
     @commands.has_permissions(administrator=True)
     async def unlock(
         self,
         ctx: discord.ApplicationContext,
         channel: discord.Option(discord.TextChannel, "Select a channel to unlock", required=False)
     ):
-        """Unlock a channel for a specific role (enables sending messages and typing)."""
         channel = channel or ctx.channel
         role = ctx.guild.get_role(ROLE_ID)
         await channel.set_permissions(role, send_messages=True, send_messages_in_threads=True, add_reactions=True)
@@ -118,10 +112,9 @@ class Moderator(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='serverlock')
+    @discord.slash_command(name='serverlock', description="Lock all channels in the server for a specific role.")
     @commands.has_permissions(administrator=True)
     async def serverlock(self, ctx: discord.ApplicationContext):
-        """Lock all channels in the server for a specific role."""
         role = ctx.guild.get_role(ROLE_ID)
         for channel in ctx.guild.channels:
             if isinstance(channel, discord.TextChannel):
@@ -133,10 +126,9 @@ class Moderator(commands.Cog):
         )
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='serverunlock')
+    @discord.slash_command(name='serverunlock', description="Unlock all channels in the server for a specific role.")
     @commands.has_permissions(administrator=True)
     async def serverunlock(self, ctx: discord.ApplicationContext):
-        """Unlock all channels in the server for a specific role."""
         role = ctx.guild.get_role(ROLE_ID)
         for channel in ctx.guild.channels:
             if isinstance(channel, discord.TextChannel):
