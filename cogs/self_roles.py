@@ -16,7 +16,12 @@ class SelfRolesViews(discord.ui.View):
 
 class SelfRoleButton(discord.ui.Button):
     def __init__(self, label, emoji, role_name):
-        super().__init__(style=discord.ButtonStyle.blurple, label=label, emoji=emoji, custom_id=f"self_role_{role_name.lower().replace(' ', '_')}")
+        super().__init__(
+            style=discord.ButtonStyle.blurple, 
+            label=label, 
+            emoji=emoji, 
+            custom_id=f"self_role_{role_name.lower().replace(' ', '_')}"
+        )
         self.role_name = role_name
 
     async def callback(self, interaction: discord.Interaction):
@@ -24,12 +29,25 @@ class SelfRoleButton(discord.ui.Button):
         if role:
             if role in interaction.user.roles:
                 await interaction.user.remove_roles(role)
-                await interaction.response.send_message(f"<a:tick_checkmark:1302388713040515147> Removed role {self.role_name}", ephemeral=True)
+                embed = discord.Embed(
+                    description=f"<a:denied:1302388701422288957> Removed role **{self.role_name}**.",
+                    color=discord.Color.red()
+                )
+                await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
                 await interaction.user.add_roles(role)
-                await interaction.response.send_message(f"<a:tick_checkmark:1302388713040515147> Added role {self.role_name}", ephemeral=True)
+                embed = discord.Embed(
+                    description=f"<a:tick_checkmark:1302388713040515147> Added role **{self.role_name}**.",
+                    color=discord.Color.green()
+                )
+                await interaction.response.send_message(embed=embed, ephemeral=True)
         else:
-            await interaction.response.send_message("<a:denied:1302388701422288957> Role not found.", ephemeral=True)
+            embed = discord.Embed(
+                description=f"<a:denied:1302388701422288957> The role **{self.role_name}** does not exist.",
+                color=discord.Color.orange()
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+
 
 
 class SelfRoles(commands.Cog):

@@ -8,9 +8,51 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @discord.slash_command(name='rules')
+    @commands.has_permissions(administrator=True)
+    async def rules(self, ctx: discord.ApplicationContext):
+        embed = discord.Embed(
+            title="📜 Server Rules",
+            description="Please read and follow these rules to ensure a welcoming and enjoyable experience for everyone.",
+            color=discord.Color.blurple()
+        )
+        embed.add_field(
+            name="1. Be Respectful",
+            value="Treat everyone with respect. Harassment, hate speech, and offensive behavior will not be tolerated.",
+            inline=False
+        )
+        embed.add_field(
+            name="2. No Spamming/advertising",
+            value="Avoid spamming and self promotion.",
+            inline=False
+        )
+        embed.add_field(
+            name="3. Keep It Safe for Work",
+            value="Do not post NSFW content or anything that violates Discord's community guidelines.",
+            inline=False
+        )
+        embed.add_field(
+            name="4. Follow Channel Topics",
+            value="Ensure your messages are relevant to the channel’s topic. Use the correct channels for specific discussions.",
+            inline=False
+        )
+        embed.add_field(
+            name="5️. No Advertising",
+            value="Do not promote other servers, products, or services without permission from the staff.",
+            inline=False
+        )
+        embed.add_field(
+            name="6️. Use Common Sense",
+            value="If something seems inappropriate, don’t do it. Always strive to maintain a positive environment.",
+            inline=False
+        )
+        embed.set_footer(text="Failure to follow these rules may result in warnings, kicks, or bans. Enjoy your time here!")
+        
+        await ctx.send(embed=embed)
+
     @discord.slash_command(name='say')
     async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)):
-        await ctx.respond()
+        await ctx.respond(message)
 
     @discord.slash_command(name='meme')
     async def meme(self, ctx: discord.ApplicationContext):
