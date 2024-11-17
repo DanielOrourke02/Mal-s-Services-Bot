@@ -48,9 +48,9 @@ class Verify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @discord.slash_command(name="send_verify")
+    @discord.slash_command(name="setup_verify")
     @commands.has_permissions(administrator=True)
-    async def send_verify(self, ctx: discord.ApplicationContext):
+    async def setup_verify(self, ctx: discord.ApplicationContext):
         embed = discord.Embed(
             title="<:twittercheck:1302398993367699466> __**Verification**__ <:twittercheck:1302398993367699466>",
             description="> 1. In the selection menu select 'verify'\n> 2. Then click the verify button.",
@@ -61,8 +61,8 @@ class Verify(commands.Cog):
         
         await ctx.send(embed=embed, view=VerificationView(self.bot, ctx))
             
-    @send_verify.error
-    async def send_send_verify_error(self, ctx, error):
+    @setup_verify.error
+    async def send_setup_verify_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             error_embed = discord.Embed(
                 description="<a:denied:1302388701422288957> You do not have permission to use this command.",

@@ -8,9 +8,9 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name='rules')
+    @discord.slash_command(name='setup_rules')
     @commands.has_permissions(administrator=True)
-    async def rules(self, ctx: discord.ApplicationContext):
+    async def setup_rules(self, ctx: discord.ApplicationContext):
         embed = discord.Embed(
             title="📜 Server Rules",
             description="Please read and follow these rules to ensure a welcoming and enjoyable experience for everyone.",
