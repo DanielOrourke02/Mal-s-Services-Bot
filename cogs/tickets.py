@@ -194,7 +194,6 @@ class Tickets(commands.Cog):
         except Exception as e:
             print(e)
 
-            
     @tickets_setup.error
     async def send_tickets_setup_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
