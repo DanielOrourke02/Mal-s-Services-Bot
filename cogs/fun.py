@@ -46,9 +46,94 @@ class fun(commands.Cog):
             value="If something seems inappropriate, don’t do it. Always strive to maintain a positive environment.",
             inline=False
         )
-        embed.set_footer(text="Failure to follow these rules may result in warnings, kicks, or bans. Enjoy your time here!")
+
+        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
         
         await ctx.send(embed=embed)
+
+    @discord.slash_command(name='setup_prices')
+    @commands.has_permissions(administrator=True)
+    async def setup_prices(self, ctx: discord.ApplicationContext):
+        embed = discord.Embed(
+            title="__**🌟 Discord Bot Services 🌟**__",
+            description="Choose from our variety of bot tiers tailored to your needs!",
+            color=discord.Color.gold()
+        )
+
+        embed.add_field(
+            name="💩 ~~£10~~ **£5 - Minimal**",
+            value="A very simple Discord bot designed to do one or two specific tasks.",
+            inline=False
+        )
+
+        embed.add_field(
+            name="💵 ~~£15~~ **£10 - Basic**",
+            value="A basic Discord bot with a small/medium range of commands of your choosing.",
+            inline=False
+        )
+
+        embed.add_field(
+            name="💎 ~~£20~~ **£15 - Pro**",
+            value="A complex and large bot, great for big/growing servers. Plus custom features tailored for your server.",
+            inline=False
+        )
+
+        embed.add_field(
+            name="🚀 ~~£35~~ **£25 - Advanced**",
+            value="An advanced, complex bot with lots of custom features. Suited for the most specific systems.",
+            inline=False
+        )
+
+        embed.add_field(
+            name="**❓ Not sure about the tier?**",
+            value="> Just make a ticket and describe your bot!",
+            inline=False
+        )
+
+        embed.add_field(
+            name="__**🔥 Hot Deals 🔥**__",
+            value=(
+                "> 🎉 **Get 1 month hosting FREE** with the purchase of any bot tier.\n"
+                "> 🎉 **2 Months Free Hosting** by purchasing the Pro or Advanced tier.\n"
+                "> 🎉 **£10 for 3 months of hosting**"
+            ),
+            inline=False
+        )
+        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
+
+        await ctx.send(embed=embed)
+
+    @discord.slash_command(name='setup_hosting')
+    @commands.has_permissions(administrator=True)
+    async def setup_hosting(self, ctx: discord.ApplicationContext):
+        embed = discord.Embed(
+            title="__**⭐ Hosting Services ⭐**__",
+            description="I offer hosting for your Discord bot, inclusive of maintenance. This service includes addressing any disruptions and accommodating changes to commands, ensuring a seamless experience.",
+            color=discord.Color.gold()
+        )
+
+        embed.add_field(
+            name="💰 **£5 per month**",
+            value="> Reliable 24/7 hosting, with 24/7 customer support.",
+            inline=True
+        )
+
+        embed.add_field(
+            name="__**🔥 Hot Deals**__",
+            value=(
+                "> 🎉 **Get 1 month hosting FREE** with the purchase of any bot tier.\n"
+                "> 🎉 **2 Months Free Hosting** by purchasing the Pro or Advanced tier.\n"
+                "> 🎉 **£10 for 3 months of hosting**"
+            ),
+            inline=False
+        )
+        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
+
+        await ctx.send(embed=embed)
+
 
     @discord.slash_command(name='say')
     async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)):

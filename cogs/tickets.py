@@ -188,7 +188,10 @@ class Tickets(commands.Cog):
             )
             
             embed.add_field(name="How It Works:", value="1. Select your ticket category.\n2. Provide details about what you're inquiring.\n3. Our team will assist you as soon as possible.", inline=False)
-            
+
+            embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
+            embed.timestamp = discord.utils.utcnow()
+
             view = TicketView(self.bot, ctx)
             await ctx.send(embed=embed, view=view)
         except Exception as e:
