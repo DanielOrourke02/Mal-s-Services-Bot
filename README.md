@@ -64,12 +64,12 @@ then run the file obv
 
 # Command list
 
-![image](https://github.com/user-attachments/assets/ad8a1d0c-2842-4fa2-a2e7-78d93111fd11)
+![image](https://github.com/user-attachments/assets/50054884-dc51-46ca-9f07-06adc0de600c)
 
-![image](https://github.com/user-attachments/assets/59ddb1a4-6aa7-4998-946b-2553b8a186fc)
+![image](https://github.com/user-attachments/assets/4ce9db0b-0b35-4ba4-b014-a3b84c225251)
 
-![image](https://github.com/user-attachments/assets/28d851f5-bfe8-41af-90e2-1066db7f30ac)
+![image](https://github.com/user-attachments/assets/eb94706d-7622-4f50-9f53-c99a71a07986)
 
-![image](https://github.com/user-attachments/assets/d12af630-2fbf-423a-8c1c-9bc735da46df)
+![image](https://github.com/user-attachments/assets/f4abc441-f7f4-4b87-94a3-a7f4f6a00c00)
 
-![image](https://github.com/user-attachments/assets/252e57c6-427a-4c5a-85dd-85b3b5441640)
+![image](https://github.com/user-attachments/assets/afad9fd3-5ed9-4301-81db-8a62fbaddf1b)
