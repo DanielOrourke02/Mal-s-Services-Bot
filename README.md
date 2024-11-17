@@ -6,7 +6,41 @@
 
 <p align="center">Admin, Fun, Information, Moderation, Owner, Tickets, verify, Utility and More...</p>
 
-## Windows Installation
+<br>
+
+<p align="center">
+  <a href="#-resource-links">Resource Links</a>
+  •
+  <a href="#-prerequisites">Prerequisites</a>
+  •
+  <a href="#-getting-started">Getting Started</a>
+</p>
+
+<br>
+
+#### Feel free to contact me on discord! [my server](https://discord.gg/kNWkT8xWg6) or add me `mal023`
+
+## 🔗 Resource Links
+
+- 🤝 Support Server: [Join Here](https://discord.gg/kNWkT8xWg6)
+- 🤝 Hire me: [Join Here](https://discord.gg/kNWkT8xWg6) or dm `mal023`
+- 📂 Documentation URL: comming soon
+
+## 📦 Prerequisites
+
+- [Python3.12](https://www.python.org/downloads/release/python-3120/)
+  - [Python install help](https://www.youtube.com/watch?v=nU2Egc3Zx3Q) 
+- [Git](https://git-scm.com/downloads)
+- [Windows](https://www.microsoft.com/en-gb/windows) or [Linux](https://ubuntu.com/)
+
+## 🚀 Getting Started
+
+#### Install instructions are vague for a reason! I didn't design this bot for others to use it. I made this bot for myself and my own needs. 
+
+> [!WARNING]
+> Untested on MAC-OS
+
+### Windows Installation
 
 ```
 git clone https://github.com/DanielOrourke02/Mal-s-Services-Bot
@@ -17,7 +51,7 @@ pip install py-cord
 
 then run the file obv
 
-## Linux Installation
+### Linux Installation
 
 ```
 git clone https://github.com/DanielOrourke02/Mal-s-Services-Bot
