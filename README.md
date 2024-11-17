@@ -1,6 +1,10 @@
-# Mal-s-Services-Bot
+<h1 align="center">
+  <br>
+  Echo Bot v5
+  <br>
+</h1>
 
-Just a cool bot with tons of features for my freelancing server
+<p align="center">Admin, Fun, Information, Moderation, Owner, Tickets, verify, Utility and More...</p>
 
 ## Windows Installation
 
