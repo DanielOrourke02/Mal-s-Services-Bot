@@ -73,7 +73,6 @@ class Other(discord.cog.Cog):
                 embed.clear_fields()
                 embed.add_field(name="🎉 Moderation Commands", value="━━━━━━━━━━━━━━━━━━", inline=False)
                 embed.add_field(name="`/ban`", value="Ban a user from the server.", inline=False)
-                embed.add_field(name="`/unban`", value="Unban a user from the server.", inline=False)
                 embed.add_field(name="`/kick`", value="Kick a user from the server.", inline=False)
                 embed.add_field(name="`/mute`", value="Mute a user.", inline=False)
                 embed.add_field(name="`/unmute`", value="Unmute a user.", inline=False)
@@ -88,6 +87,9 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/shutdown`", value="Turn the bot off.", inline=False)
                 embed.add_field(name="`/setup_roles`", value="Send the self roles menu.", inline=False)
                 embed.add_field(name="`/setup_tickets`", value="Setup tickets.", inline=False)
+                embed.add_field(name="`/setup_prices`", value="Send prices embed.", inline=False)
+                embed.add_field(name="`/setup_hosting`", value="Send hosting embed.", inline=False)
+                embed.add_field(name="`/setup_rules`", value="Send rules embed.", inline=False)
 
             elif select.values[0] == "Fun Commands":
                 embed.clear_fields()
