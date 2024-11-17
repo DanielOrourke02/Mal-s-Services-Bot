@@ -1,13 +1,16 @@
 import discord
+import asyncio
 import datetime
 from discord.ext import commands
 
-bot = discord.Bot(intents=discord.Intents.default())
+intents = discord.Intents.default()
+intents.members = True 
+bot = discord.Bot(intents=intents)
 
 @bot.event
 async def on_ready():
     print(f"\nWe have logged in as: {bot.user.display_name}")
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/ping"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/help"))
 
 @bot.event
 async def on_application_command_error(ctx, error: discord.DiscordException):
@@ -22,7 +25,7 @@ async def on_application_command_error(ctx, error: discord.DiscordException):
 
 @bot.event
 async def on_member_join(member: discord.Member):
-    ping_channel_id = 1195705856642261022
+    ping_channel_id = 1302396598591950919
     welcome_channel_id = 1196022863430418523
 
     ping_channel = member.guild.get_channel(ping_channel_id)
@@ -30,7 +33,7 @@ async def on_member_join(member: discord.Member):
 
     if ping_channel:
         ping_message = await ping_channel.send(f"{member.mention}")
-        await discord.utils.sleep_until(ping_message.created_at + discord.utils.timedelta(seconds=3))
+        await asyncio.sleep(3)
         await ping_message.delete()
 
     if welcome_channel:
@@ -48,7 +51,7 @@ async def on_member_join(member: discord.Member):
 
         embed.set_footer(text=f"User ID: {member.id}")
         await welcome_channel.send(embed=embed)
-
+        
 @bot.slash_command(name='shutdown')
 @commands.is_owner()
 async def shutdown(ctx: discord.ApplicationContext):
@@ -80,7 +83,6 @@ async def uptime(ctx: discord.ApplicationContext):
         color=discord.Color.blurple()
     )
     await ctx.respond(embed=embed)
-
 
 cogs = [
     'cogs.tickets',
