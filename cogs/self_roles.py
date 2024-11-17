@@ -60,7 +60,6 @@ class SelfRoles(commands.Cog):
             )
             await ctx.respond(embed=error_embed)
 
-
     @commands.Cog.listener()
     async def on_ready(self):
         self.bot.add_view(SelfRolesViews(ROLE_LIST)) 

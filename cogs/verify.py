@@ -24,7 +24,6 @@ class VerificationView(discord.ui.View):
             self.correct_menu_selection = True
         else:
             self.correct_menu_selection = False
-        await interaction.response.send_message(f"Selected {select.values[0]}", ephemeral=True)
 
     @discord.ui.button(label="verify", style=discord.ButtonStyle.primary)
     async def verify(self, button: discord.ui.Button, interaction: discord.Interaction):
