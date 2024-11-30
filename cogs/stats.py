@@ -29,11 +29,11 @@ class Stats(commands.Cog):
         bot_channel = guild.get_channel(self.bot_members_channel_id)
 
         if total_channel:
-            await total_channel.edit(name=f"「👥」Total Members: {total_members}")
+            await total_channel.edit(name=f"「👥」{total_members} Members")
         if human_channel:
-            await human_channel.edit(name=f"「🧍」Humans: {human_members}")
+            await human_channel.edit(name=f"「🧍」{human_members} Humans")
         if bot_channel:
-            await bot_channel.edit(name=f"「🤖」Bots: {bot_members}")
+            await bot_channel.edit(name=f"「🤖」{bot_members} Bots")
 
     @update_stats.before_loop
     async def before_update_stats(self):
