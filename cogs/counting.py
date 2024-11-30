@@ -14,31 +14,34 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author.bot or message.channel.id != self.counting_channel_id:
-            return
-
-        required_role = discord.utils.get(message.author.roles, id=self.required_role_id)
-        if not required_role:
-            embed = discord.Embed(
-                title="🔒 Access Denied",
-                description=f"You must have the <@&{self.required_role_id}> role to participate in counting.",
-                color=discord.Color.red()
-            )
-            embed.set_footer(text="Counting Game")
-            await message.channel.send(embed=embed, delete_after=5)
-            return
-
         try:
-            user_count = int(message.content)
-        except ValueError:
-            await message.delete()
-            return
+            if message.author.bot or message.channel.id != self.counting_channel_id:
+                return
 
-        if user_count == self.current_count + 1:
-            self.current_count += 1 
-            await message.add_reaction("✅")
-        else:
-            await message.delete()
+            required_role = discord.utils.get(message.author.roles, id=self.required_role_id)
+            if not required_role:
+                embed = discord.Embed(
+                    title="🔒 Access Denied",
+                    description=f"You must have the <@&{self.required_role_id}> role to participate in counting.",
+                    color=discord.Color.red()
+                )
+                embed.set_footer(text="Counting Game")
+                await message.channel.send(embed=embed, delete_after=5)
+                return
+
+            try:
+                user_count = int(message.content)
+            except ValueError:
+                await message.delete()
+                return
+
+            if user_count == self.current_count + 1:
+                self.current_count += 1 
+                await message.add_reaction("✅")
+            else:
+                await message.delete()
+        except Exception as e:
+            print(e)
 
 def setup(bot):
     bot.add_cog(Counting(bot))
