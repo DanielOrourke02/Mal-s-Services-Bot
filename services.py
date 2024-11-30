@@ -107,7 +107,6 @@ cogs = [
     'cogs.utility',
     'cogs.counting',
     'cogs.stats',
-    'cogs.botmonitor',
 ]
 
 for cog in cogs:
