@@ -23,6 +23,9 @@ async def on_application_command_error(ctx, error: discord.DiscordException):
     else:
         raise error
 
+import discord
+import asyncio
+
 @bot.event
 async def on_member_join(member: discord.Member):
     ping_channel_id = 1302396598591950919
@@ -31,26 +34,36 @@ async def on_member_join(member: discord.Member):
     ping_channel = member.guild.get_channel(ping_channel_id)
     welcome_channel = member.guild.get_channel(welcome_channel_id)
 
+    # Ping the member in the ping channel briefly
     if ping_channel:
         ping_message = await ping_channel.send(f"{member.mention}")
         await asyncio.sleep(3)
         await ping_message.delete()
 
+    # Create the welcome embed message
     if welcome_channel:
         member_count = len([m for m in member.guild.members if not m.bot])
         suffix = "th" if 4 <= member_count % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(member_count % 10, "th")
 
+        avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
         embed = discord.Embed(
-            title="🎉 Welcome to the Server! 🎉",
-            description=f"Hi {member.mention}. You are our {member_count}{suffix} member!",
+            title="Welcome to Paradise Casino! 🎰",
+            description=(
+                f"Hello, {member.mention}! We're excited to have you here. 🎉\n\n"
+                f"📋 **Make sure to:**\n"
+                f"> Read the <#1197073841252466709> for server guidelines.\n"
+                f"> Ask questions in <#1195705939651743824> if needed.\n"
+                f"> Use `/help` to view all bot commands!\n\n"
+                f"🎊 You are our **{member_count}{suffix}** member!"
+            ),
             color=discord.Color.gold()
         )
-
-        avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
         embed.set_thumbnail(url=avatar_url)
-
         embed.set_footer(text=f"User ID: {member.id}")
+        embed.timestamp = discord.utils.utcnow()
+
         await welcome_channel.send(embed=embed)
+
         
 @bot.slash_command(name='shutdown')
 @commands.is_owner()
