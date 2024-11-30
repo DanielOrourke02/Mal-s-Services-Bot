@@ -105,6 +105,8 @@ cogs = [
     'cogs.verify',
     'cogs.mod',
     'cogs.utility',
+    'cogs.counting',
+    'cogs.stats',
 ]
 
 for cog in cogs:
