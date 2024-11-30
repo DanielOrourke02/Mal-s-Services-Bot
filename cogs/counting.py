@@ -4,7 +4,7 @@ from discord.ext import commands
 class Counting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.counting_channel_id = 1080576773483405443
+        self.counting_channel_id = 1312454065703096340
         self.required_role_id = 1312452960910970931  
         self.current_count = 0 
 
