@@ -1,7 +1,6 @@
-import discord
-from discord.ext import commands
-from discord.ui import View, Select
-from discord import SelectOption, utils
+
+
+from util.utilities import *
 
 
 #SUGGESTION_CHANNEL_ID = 1268322542633091112
@@ -29,7 +28,7 @@ class Other(discord.cog.Cog):
             title="📜 Help Menu",
             description="Choose a category from the dropdown to view available commands.",
             color=discord.Color.gold(),
-            timestamp=utils.utcnow()
+            timestamp=discord.utils.utcnow()
         )
 
         options = [
@@ -118,8 +117,7 @@ class Other(discord.cog.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Other Cog Loaded!')
-
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Other Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Other(bot))

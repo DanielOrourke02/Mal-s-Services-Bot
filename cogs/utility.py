@@ -1,10 +1,7 @@
-import discord
-from discord.ext import commands
-import uuid
-import datetime
-import asyncio
-import qrcode
-from io import BytesIO
+
+
+from util.utilities import *
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +11,7 @@ class Utility(commands.Cog):
     async def userinfo(
         self, 
         ctx: discord.ApplicationContext, 
-        member: discord.Option(discord.Member, "Select a user", required=False)
+        member: discord.Option(discord.Member, "Select a user", required=False) # type: ignore
     ):
         """Display information about a specific user."""
         member = member or ctx.author
@@ -67,7 +64,7 @@ class Utility(commands.Cog):
     async def avatar(
         self, 
         ctx: discord.ApplicationContext, 
-        member: discord.Option(discord.Member, "Select a user", required=False)
+        member: discord.Option(discord.Member, "Select a user", required=False) # type: ignore
     ):
         """Show the avatar of a user."""
         member = member or ctx.author
@@ -82,8 +79,8 @@ class Utility(commands.Cog):
     async def reminder(
         self, 
         ctx: discord.ApplicationContext, 
-        time: discord.Option(int, "Time in minutes", required=True), 
-        message: discord.Option(str, "Reminder message", required=True)
+        time: discord.Option(int, "Time in minutes", required=True),  # type: ignore
+        message: discord.Option(str, "Reminder message", required=True) # type: ignore
     ):
         """Set a reminder for yourself (time in minutes)."""
         embed = discord.Embed(
@@ -104,7 +101,7 @@ class Utility(commands.Cog):
     async def calculate(
         self, 
         ctx: discord.ApplicationContext, 
-        expression: discord.Option(str, "Math expression to evaluate", required=True)
+        expression: discord.Option(str, "Math expression to evaluate", required=True) # type: ignore
     ):
         """Evaluate a simple math expression."""
         try:
@@ -130,7 +127,7 @@ class Utility(commands.Cog):
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name="qrcode", description="Generate a QR code from a provided link.")
-    async def qrcode(self, ctx: discord.ApplicationContext, link: discord.Option(str, "URL to generate QR code for", required=True)):
+    async def qrcode(self, ctx: discord.ApplicationContext, link: discord.Option(str, "URL to generate QR code for", required=True)): # type: ignore
         """Generate a QR code from a provided link."""
         buffer = BytesIO()
         img = qrcode.make(link)
@@ -146,10 +143,9 @@ class Utility(commands.Cog):
         embed.set_image(url="attachment://qrcode.png")
         await ctx.respond(embed=embed, file=file)
 
-
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Utility Cog Loaded!')
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Utility Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Utility(bot))

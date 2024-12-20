@@ -1,7 +1,6 @@
-import discord
-import random
-import aiohttp
-from discord.ext import commands
+
+
+from util.utilities import *
 
 
 class fun(commands.Cog):
@@ -136,7 +135,7 @@ class fun(commands.Cog):
 
 
     @discord.slash_command(name='say')
-    async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)):
+    async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)): # type: ignore
         await ctx.respond(message)
 
     @discord.slash_command(name='meme')
@@ -155,7 +154,7 @@ class fun(commands.Cog):
                     await ctx.respond(embed=discord.Embed(description="Could not fetch a meme at the moment.", color=discord.Color.red()))
 
     @discord.slash_command(name='8ball')
-    async def eight_ball(self, ctx: discord.ApplicationContext, question: discord.Option(str, description="What you want to ask the bot", required=True)):
+    async def eight_ball(self, ctx: discord.ApplicationContext, question: discord.Option(str, description="What you want to ask the bot", required=True)): # type: ignore
         """Magic 8-ball answers your questions."""
         responses = ["Yes.", "No.", "Maybe.", "Absolutely.", "I don't think so.", "Ask again later."]
         
@@ -179,7 +178,7 @@ class fun(commands.Cog):
                     await ctx.respond(embed=discord.Embed(description="Couldn't fetch a joke right now.", color=discord.Color.red()))
 
     @discord.slash_command(name='roast')
-    async def roast(self, ctx: discord.ApplicationContext, member: discord.Option(discord.Member, description="User you want to roast", required=True)):
+    async def roast(self, ctx: discord.ApplicationContext, member: discord.Option(discord.Member, description="User you want to roast", required=True)): # type: ignore
         """Sends a roast to a user."""
         roasts = ["You're as bright as a black hole.", "If ignorance is bliss, you must be the happiest person alive.", "You bring everyone so much joy when you leave the room."]
         target = member.mention if member else "you"
@@ -189,7 +188,7 @@ class fun(commands.Cog):
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name='rate')
-    async def rate(self, ctx: discord.ApplicationContext, thing: discord.Option(str, description="Item to rate", required=True)):
+    async def rate(self, ctx: discord.ApplicationContext, thing: discord.Option(str, description="Item to rate", required=True)): # type: ignore
         """Rates something out of 10."""
         rating = random.randint(1, 10)
         
@@ -323,7 +322,7 @@ class fun(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Fun Cog Loaded!')
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Fun Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(fun(bot))

@@ -1,6 +1,6 @@
-import discord
-import asyncio
-from discord.ext import commands
+
+
+from util.utilities import *
 
 ROLE_ID = 1195702107215511603
 
@@ -151,7 +151,7 @@ class Moderator(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Moderator Cog Loaded!')
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Moderator Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Moderator(bot))

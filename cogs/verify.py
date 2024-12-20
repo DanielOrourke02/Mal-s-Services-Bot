@@ -1,5 +1,6 @@
-import discord
-from discord.ext import commands
+
+
+from util.utilities import *
 
 
 class VerificationView(discord.ui.View):
@@ -72,8 +73,7 @@ class Verify(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Verify Cog Loaded!')
-
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Verify Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Verify(bot))

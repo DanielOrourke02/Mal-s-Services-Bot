@@ -1,5 +1,6 @@
-import discord
-from discord.ext import commands
+
+
+from util.utilities import *
 
 ROLE_LIST = {
     "📢": ("Announcement", "Announcement"),
@@ -81,7 +82,7 @@ class SelfRoles(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.bot.add_view(SelfRolesViews(ROLE_LIST)) 
-        print(f'Self Roles Cog Loaded!')
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Self Roles Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(SelfRoles(bot))
