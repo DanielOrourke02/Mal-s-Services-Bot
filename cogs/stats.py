@@ -42,7 +42,7 @@ class Stats(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"Stats Cog Loaded!")
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Stats Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Stats(bot))

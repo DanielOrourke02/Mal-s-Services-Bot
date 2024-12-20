@@ -276,7 +276,7 @@ class Tickets(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Tickets Cog Loaded!')
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Tickets Cog Loaded! {Fore.RESET}')
 
 def setup(bot):
     bot.add_cog(Tickets(bot))

@@ -3,6 +3,22 @@
 from util.utilities import *
 
 
+def setup_database():
+    conn = sqlite3.connect('databases/counting.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS counting_stats
+                    (user_id INTEGER PRIMARY KEY,
+                    correct_counts INTEGER DEFAULT 0,
+                    failed_counts INTEGER DEFAULT 0,
+                    last_count TIMESTAMP)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS high_scores
+                    (id INTEGER PRIMARY KEY,
+                    score INTEGER DEFAULT 0,
+                    achieved_by INTEGER,
+                    achieved_at TIMESTAMP)''')
+    conn.commit()
+    conn.close() 
+    
 class Counting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -10,24 +26,7 @@ class Counting(commands.Cog):
         self.required_role_id = 1312452960910970931
         self.current_count = 0
         self.last_counter = None
-        self.setup_database()
         self.high_score = self.get_high_score()
-
-    def setup_database(self):
-        conn = sqlite3.connect('databases/counting.db')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS counting_stats
-                     (user_id INTEGER PRIMARY KEY,
-                      correct_counts INTEGER DEFAULT 0,
-                      failed_counts INTEGER DEFAULT 0,
-                      last_count TIMESTAMP)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS high_scores
-                     (id INTEGER PRIMARY KEY,
-                      score INTEGER DEFAULT 0,
-                      achieved_by INTEGER,
-                      achieved_at TIMESTAMP)''')
-        conn.commit()
-        conn.close()
 
     def get_high_score(self):
         conn = sqlite3.connect('counting.db')
@@ -69,6 +68,8 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        setup_database()
+        
         print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Counting Cog Loaded! {Fore.RESET}')
         channel = self.bot.get_channel(self.counting_channel_id)
         if channel:
