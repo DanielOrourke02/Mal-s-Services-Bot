@@ -1,6 +1,5 @@
 from typing import List, Tuple, Union, Dict, Optional, Literal
 from discord.commands import SlashCommandGroup
-from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime, timedelta
 from discord.ext.pages import Paginator
 from discord.ext import commands, tasks
