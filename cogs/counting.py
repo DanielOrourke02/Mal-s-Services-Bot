@@ -26,37 +26,20 @@ class Counting(commands.Cog):
         self.required_role_id = 1312452960910970931
         self.current_count = 0
         self.last_counter = None
+        setup_database()  # Call setup_database before getting high score
         self.high_score = self.get_high_score()
 
     def get_high_score(self):
-        conn = sqlite3.connect('counting.db')
+        conn = sqlite3.connect('databases/counting.db')  # Fixed path
         c = conn.cursor()
         c.execute('SELECT score FROM high_scores ORDER BY score DESC LIMIT 1')
         result = c.fetchone()
         conn.close()
         return result[0] if result else 0
 
-    def update_user_stats(self, user_id, correct=True):
-        conn = sqlite3.connect('databases/counting.db')
-        c = conn.cursor()
-        if correct:
-            c.execute('''INSERT INTO counting_stats (user_id, correct_counts, last_count)
-                        VALUES (?, 1, CURRENT_TIMESTAMP)
-                        ON CONFLICT(user_id) DO UPDATE SET
-                        correct_counts = correct_counts + 1,
-                        last_count = CURRENT_TIMESTAMP''', (user_id,))
-        else:
-            c.execute('''INSERT INTO counting_stats (user_id, failed_counts, last_count)
-                        VALUES (?, 1, CURRENT_TIMESTAMP)
-                        ON CONFLICT(user_id) DO UPDATE SET
-                        failed_counts = failed_counts + 1,
-                        last_count = CURRENT_TIMESTAMP''', (user_id,))
-        conn.commit()
-        conn.close()
-
     def update_high_score(self, score, user_id):
         if score > self.high_score:
-            conn = sqlite3.connect('counting.db')
+            conn = sqlite3.connect('databases/counting.db')  # Fixed path
             c = conn.cursor()
             c.execute('''INSERT INTO high_scores (score, achieved_by, achieved_at)
                         VALUES (?, ?, CURRENT_TIMESTAMP)''', (score, user_id))
@@ -65,11 +48,9 @@ class Counting(commands.Cog):
             self.high_score = score
             return True
         return False
-
+        
     @commands.Cog.listener()
     async def on_ready(self):
-        setup_database()
-        
         print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Counting Cog Loaded! {Fore.RESET}')
         channel = self.bot.get_channel(self.counting_channel_id)
         if channel:
