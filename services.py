@@ -103,7 +103,7 @@ cogs = [
     'cogs.utility',
     'cogs.stats',
     'cogs.todo',
-    "vc"
+    "cogs.vc"
 ]
 
 for cog in cogs:
