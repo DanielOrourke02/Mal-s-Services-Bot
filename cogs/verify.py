@@ -6,7 +6,7 @@ from util.utilities import *
 class Verify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.message_id = None  # Save the message ID to track reactions
+        self.message_id = 1320355645211545610
 
     @discord.slash_command(name="setup_verify", description="Sets up the verification system")
     @commands.has_permissions(administrator=True)
@@ -38,7 +38,6 @@ class Verify(commands.Cog):
             if role:
                 try:
                     await member.add_roles(role)
-                    await member.send("You have been verified and given access to the server!")
                 except discord.Forbidden:
                     print(f"Failed to assign role to {member.display_name} due to permission issues.")
                 except discord.HTTPException:

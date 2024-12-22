@@ -14,7 +14,7 @@ ROLE_LIST = {
 class SelfRoles(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.message_id = None  # Store the message ID for the reaction role post
+        self.message_id = 1320355682154844192
 
     @discord.slash_command(name="setup_roles", description="Sends the self roles message")
     @commands.has_permissions(administrator=True)
@@ -28,7 +28,7 @@ class SelfRoles(commands.Cog):
         )
 
         message = await ctx.send(embed=embed)
-        self.message_id = message.id  # Save the message ID
+        self.message_id = message.id
         for emoji in ROLE_LIST.keys():
             await message.add_reaction(emoji)
 

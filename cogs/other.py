@@ -3,9 +3,6 @@
 from util.utilities import *
 
 
-#SUGGESTION_CHANNEL_ID = 1268322542633091112
-SUGGESTION_CHANNEL_ID = 1301168301166039160 # suggestions
-
 class Other(discord.cog.Cog):
     def __init__(self, bot):
         self.bot = bot
