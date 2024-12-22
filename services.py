@@ -100,10 +100,10 @@ cogs = [
     'cogs.self_roles',
     'cogs.fun',
     'cogs.verify',
-    'cogs.mod',
     'cogs.utility',
     'cogs.stats',
     'cogs.todo',
+    "vc"
 ]
 
 for cog in cogs:
