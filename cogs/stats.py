@@ -2,6 +2,7 @@
 
 from util.utilities import *
 
+
 class Stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

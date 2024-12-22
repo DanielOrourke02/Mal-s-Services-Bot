@@ -23,9 +23,6 @@ async def on_application_command_error(ctx, error: discord.DiscordException):
     else:
         raise error
 
-import discord
-import asyncio
-
 @bot.event
 async def on_member_join(member: discord.Member):
     ping_channel_id = 1302396598591950919

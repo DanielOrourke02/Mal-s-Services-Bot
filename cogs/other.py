@@ -100,7 +100,6 @@ class Other(discord.cog.Cog):
                 embed.add_field(name="`/roast`", value="Get roasted by the bot.", inline=False)
                 embed.add_field(name="`/rate`", value="Rate something out of 10.", inline=False)
                 embed.add_field(name="`/truth_or_dare`", value="Play a truth or dare game.", inline=False)
-                embed.add_field(name="`/rps`", value="Play Rock-Paper-Scissors with the bot.", inline=False)
                 embed.add_field(name="`/joke`", value="Hear a random joke.", inline=False)
                 embed.add_field(name="`/randomcolor`", value="Get a random color.", inline=False)
                 embed.add_field(name="`/guessnumber`", value="Play a number guessing game.", inline=False)

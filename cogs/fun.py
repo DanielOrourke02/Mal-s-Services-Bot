@@ -36,12 +36,12 @@ class fun(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name="5️. No Advertising",
+            name="5. No Advertising",
             value="Do not promote other servers, products, or services without permission from the staff.",
             inline=False
         )
         embed.add_field(
-            name="6️. Use Common Sense",
+            name="6. Use Common Sense",
             value="If something seems inappropriate, don’t do it. Always strive to maintain a positive environment.",
             inline=False
         )
@@ -205,47 +205,6 @@ class fun(commands.Cog):
         
         await ctx.respond(embed=embed)
 
-    @discord.slash_command(name='rps')
-    async def rps(self, ctx: discord.ApplicationContext):
-        """Play Rock-Paper-Scissors with the bot."""
-        
-        options = [
-            discord.SelectOption(label="Rock", value="rock", emoji="✊"),
-            discord.SelectOption(label="Paper", value="paper", emoji="✋"),
-            discord.SelectOption(label="Scissors", value="scissors", emoji="✌️")
-        ]
-        
-        select = discord.ui.Select(
-            placeholder="Choose rock, paper, or scissors",
-            options=options
-        )
-
-        async def select_callback(interaction: discord.Interaction):
-            choice = select.values[0]
-            choices = ["rock", "paper", "scissors"]
-            bot_choice = random.choice(choices)
-            
-            # Determine the outcome
-            if choice == bot_choice:
-                outcome = "It's a tie!"
-            elif (choice == "rock" and bot_choice == "scissors") or \
-                 (choice == "paper" and bot_choice == "rock") or \
-                 (choice == "scissors" and bot_choice == "paper"):
-                outcome = "You win!"
-            else:
-                outcome = "I win!"
-                
-            embed = discord.Embed(description=f"I chose {bot_choice}. {outcome}", color=discord.Color.gold())
-            await interaction.response.edit_message(embed=embed, view=None)
-
-        select.callback = select_callback
-
-        view = discord.ui.View()
-        view.add_item(select)
-        
-        embed = discord.Embed(description="Play Rock-Paper-Scissors with me! Choose an option below:", color=discord.Color.blue())
-        await ctx.respond(embed=embed, view=view)
-
     @discord.slash_command(name='joke')
     async def joke(self, ctx: discord.ApplicationContext):
         """Tells a random joke."""
@@ -268,25 +227,6 @@ class fun(commands.Cog):
         
         embed = discord.Embed(description=f"Here's a random color: {hex_color}", color=color)
         
-        await ctx.respond(embed=embed)
-
-    @discord.slash_command(name='guessnumber')
-    async def guess_number(self, ctx: discord.ApplicationContext):
-        """Starts a number guessing game."""
-        number = random.randint(1, 10)
-        
-        await ctx.respond(embed=discord.Embed(description="Guess a number between 1 and 10!", color=discord.Color.magenta()))
-
-        def check(msg):
-            return msg.author == ctx.author and msg.content.isdigit()
-
-        guess = await self.bot.wait_for("message", check=check)
-        
-        if int(guess.content) == number:
-            embed = discord.Embed(description="Correct!", color=discord.Color.green())
-        else:
-            embed = discord.Embed(description=f"Wrong! The number was {number}.", color=discord.Color.red())
-            
         await ctx.respond(embed=embed)
 
     @discord.slash_command(name='quotes')
