@@ -4,11 +4,12 @@ from util.utilities import *
 
 
 ROLE_LIST = {
-    "<:announce_purple:1320352903382433832>": ("Announcement", "Get notified for bot announcements."),
+    "<:MSP_Announcement:1345069429725204606>": ("Announcement", "Get notified for bot announcements."),
     "<:Update:1320353221562335254>": ("Updates", "Get notified for bot updates, changes, etc."),
     "<:Bot:1320352836105670676>": ("Bot", "Get notified for bot maintenance and outages."),
     "<:Giveaways:1320352823770087515>": ("Giveaways", "Get notified for giveaways."),
-    "<a:darkred_fire:1320353449019314217>": ("Events", "Get notified for server and bot events.")
+    "<a:PixelOrangeFire:1345069490135629956>": ("Events", "Get notified for server and bot events."),
+    "<:Server_Developer:1345069925495996567>": ("Polls", "Get notified for polls.")
 }
 
 class SelfRoles(commands.Cog):

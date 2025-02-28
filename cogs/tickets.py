@@ -2,8 +2,11 @@
 
 from util.utilities import *
 
+
 PURCHASE_CATEGORY_ID = 1307085222457901136
+BAN_APPEAL_CATEGORY_ID = 1345070997216297053
 FAQ_CATEGORY_ID = 1307090109589356544
+GIVEAWAYS_CATEGORY_ID = 1345070998248099850 
 OTHER_CATEGORY_ID = 1307090153155723377
 
 class ConfirmCloseView(discord.ui.View):
@@ -17,7 +20,7 @@ class ConfirmCloseView(discord.ui.View):
             await interaction.response.send_message("Only the command initiator can confirm this action.", ephemeral=True)
             return
 
-        log_channel = discord.utils.get(interaction.guild.text_channels, name="ticket-logs")
+        log_channel = discord.utils.get(interaction.guild.text_channels, name="「🔎」ticket-logs")
         if log_channel:
             embed = discord.Embed(
                 title="Ticket Closed",
@@ -35,7 +38,9 @@ class TicketView(discord.ui.View):
         self.ctx = ctx
         self.ticket_category_mapping = {
             "Purchase": PURCHASE_CATEGORY_ID,
+            "Ban Appeal": BAN_APPEAL_CATEGORY_ID,
             "FAQ": FAQ_CATEGORY_ID,
+            "Giveaways": GIVEAWAYS_CATEGORY_ID,
             "Other": OTHER_CATEGORY_ID,
         }
         self.selected_category = None
@@ -45,9 +50,31 @@ class TicketView(discord.ui.View):
         min_values=1,
         max_values=1,
         options=[
-            discord.SelectOption(label="Purchase", description="Interested in buying/purchasing", emoji="💰"),
-            discord.SelectOption(label="FAQ", description="Ask questions", emoji="❓"),     
-            discord.SelectOption(label="Other", description="Ticket for other reasons", emoji="🌀"),  
+            discord.SelectOption(
+                label="Purchase", 
+                description="Patreon inquiries and purchases", 
+                emoji="<:Donator:1345071548230533262>"
+            ),
+            discord.SelectOption(
+                label="Ban Appeal", 
+                description="Appeal a server ban", 
+                emoji="<:ban_hammer:1345071574994128896>"
+            ),
+            discord.SelectOption(
+                label="FAQ", 
+                description="General questions and help", 
+                emoji="<:Question:1345071437823869061>"
+            ),
+            discord.SelectOption(
+                label="Giveaways", 
+                description="Giveaway related inquiries", 
+                emoji="<:Giveaways:1320352823770087515>"
+            ),
+            discord.SelectOption(
+                label="Other", 
+                description="Other inquiries", 
+                emoji="🌀"
+            ),
         ]
     )
     async def select_category_callback(self, select, interaction: discord.Interaction):
@@ -95,7 +122,7 @@ class TicketView(discord.ui.View):
             await interaction.response.send_message(f"Ticket created: {ticket_channel.mention}", ephemeral=True)
 
             embed = discord.Embed(
-                title="🎟️ Ticket Opened",
+                title="<:vsl_ticket:1304908762439745616> Ticket Opened",
                 description=f"Hello {interaction.user.mention},\nOur support team will be with you shortly. Please provide any details about your issue to help us assist you faster.",
                 color=discord.Color.gold()
             )
@@ -139,7 +166,7 @@ class TicketActionsView(discord.ui.View):
         )
         await interaction.channel.send(embed=embed)
     
-    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, emoji="🎫")
+    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, emoji="<:vsl_ticket:1304908762439745616>")
     async def close_ticket(self, button: discord.ui.Button, interaction: discord.Interaction):
         await interaction.response.send_message(
             "Are you sure you want to close this ticket?", 
@@ -156,7 +183,7 @@ class CloseConfirmationView(discord.ui.View):
 
     @discord.ui.button(label="Confirm", style=discord.ButtonStyle.danger)
     async def confirm_close(self, button: discord.ui.Button, interaction: discord.Interaction):
-        log_channel = discord.utils.get(interaction.guild.text_channels, name="ticket-logs")
+        log_channel = discord.utils.get(interaction.guild.text_channels, name="「🔎」ticket-logs")
         if log_channel:
             log_embed = discord.Embed(
                 title="Ticket Closed",
@@ -183,12 +210,33 @@ class Tickets(commands.Cog):
     async def tickets_setup(self, ctx: discord.ApplicationContext):
         try:
             embed = discord.Embed(
-                title="🎫 Ticket Support System",
-                description="Need help? Select the type of ticket you require below and click **Create Ticket** to get started.",
+                title="<:vsl_ticket:1304908762439745616> Ticket Support System",
+                description="Need assistance? Select a category below and click **Create Ticket** to get started.",
                 color=discord.Color.from_rgb(0, 123, 255)
             )
             
-            embed.add_field(name="How It Works:", value="1. Select your ticket category.\n2. Provide details about what you're inquiring.\n3. Our team will assist you as soon as possible.", inline=False)
+            embed.add_field(
+                name="Available Categories:",
+                value=(
+                    "💰 **Purchase** - Patreon inquiries and purchases\n"
+                    "🔨 **Ban Appeal** - Appeal a server ban\n"
+                    "❓ **FAQ** - General questions and help\n"
+                    "🎉 **Giveaways** - Giveaway related inquiries\n"
+                    "🌀 **Other** - Other inquiries"
+                ),
+                inline=False
+            )
+            
+            embed.add_field(
+                name="How It Works:", 
+                value=(
+                    "1. Select your ticket category\n"
+                    "2. Click the Create Ticket button\n"
+                    "3. Provide details about your inquiry\n"
+                    "4. Wait for staff response"
+                ), 
+                inline=False
+            )
 
             embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
             embed.timestamp = discord.utils.utcnow()
@@ -201,7 +249,7 @@ class Tickets(commands.Cog):
     @discord.slash_command(name="close", description="Closes the current ticket channel")
     async def close(self, ctx):
         try:
-            ticket_category_ids = [PURCHASE_CATEGORY_ID, FAQ_CATEGORY_ID, OTHER_CATEGORY_ID]
+            ticket_category_ids = [PURCHASE_CATEGORY_ID, GIVEAWAYS_CATEGORY_ID, BAN_APPEAL_CATEGORY_ID, FAQ_CATEGORY_ID, OTHER_CATEGORY_ID]
 
             if ctx.channel.category_id not in ticket_category_ids:
                 embed = discord.Embed(

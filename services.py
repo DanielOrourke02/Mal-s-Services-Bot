@@ -102,7 +102,6 @@ cogs = [
     'cogs.verify',
     'cogs.utility',
     'cogs.stats',
-    'cogs.todo',
     "cogs.vc"
 ]
 

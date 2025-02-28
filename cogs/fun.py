@@ -45,6 +45,10 @@ class fun(commands.Cog):
             value="If something seems inappropriate, don’t do it. Always strive to maintain a positive environment.",
             inline=False
         )
+        embed.add_field(
+            name="6. Do not spam ping admins",
+            value="When in a ticket or dms, do not spam ping staff. It will result in a ban."
+        )
 
         embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
         embed.timestamp = discord.utils.utcnow()
@@ -132,11 +136,6 @@ class fun(commands.Cog):
         embed.timestamp = discord.utils.utcnow()
 
         await ctx.send(embed=embed)
-
-
-    @discord.slash_command(name='say')
-    async def say(self, ctx: discord.ApplicationContext, message: discord.Option(str, description="What you want the bot to say", required=True)): # type: ignore
-        await ctx.respond(message)
 
     @discord.slash_command(name='meme')
     async def meme(self, ctx: discord.ApplicationContext):
@@ -242,7 +241,7 @@ class fun(commands.Cog):
                     
                     await ctx.respond(embed=embed)
                 else:
-                    await ctx.respond(embed=discord.Embed(description="Couldn't fetch a quote right now.", color=discord.Color.red()))
+                    await ctx.respond(embed=discord.Embed(descripwion="Couldn't fetch a quote right now.", color=discord.Color.red()))
 
     @discord.slash_command(name='waifu')
     async def waifu(self, ctx: discord.ApplicationContext):
