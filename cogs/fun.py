@@ -7,52 +7,30 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name='setup_rules')
+    @discord.slash_command(name="setup_rules")
     @commands.has_permissions(administrator=True)
     async def setup_rules(self, ctx: discord.ApplicationContext):
         embed = discord.Embed(
             title="📜 Server Rules",
-            description="Please read and follow these rules to ensure a welcoming and enjoyable experience for everyone.",
+            description="Follow these rules to keep the server a great place!",
             color=discord.Color.blurple()
         )
-        embed.add_field(
-            name="1. Be Respectful",
-            value="Treat everyone with respect. Harassment, hate speech, and offensive behavior will not be tolerated.",
-            inline=False
-        )
-        embed.add_field(
-            name="2. No Spamming/advertising",
-            value="Avoid spamming and self promotion.",
-            inline=False
-        )
-        embed.add_field(
-            name="3. Keep It Safe for Work",
-            value="Do not post NSFW content or anything that violates Discord's community guidelines.",
-            inline=False
-        )
-        embed.add_field(
-            name="4. Follow Channel Topics",
-            value="Ensure your messages are relevant to the channel’s topic. Use the correct channels for specific discussions.",
-            inline=False
-        )
-        embed.add_field(
-            name="5. No Advertising",
-            value="Do not promote other servers, products, or services without permission from the staff.",
-            inline=False
-        )
-        embed.add_field(
-            name="6. Use Common Sense",
-            value="If something seems inappropriate, don’t do it. Always strive to maintain a positive environment.",
-            inline=False
-        )
-        embed.add_field(
-            name="6. Do not spam ping admins",
-            value="When in a ticket or dms, do not spam ping staff. It will result in a ban."
-        )
 
-        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
+        rules = [
+            "1. Be respectful, toxic people are not wanted.",
+            "2. No spamming and no advertising.",
+            "3. NO NSFW content.",
+            "4. Try to follow channel topics.",
+            "5. Don't beg for money, it's annoying.",
+            "6. Spam pinging admins results in an instant ban.",
+            "7. Don't open a ticket and say nothing (kick/mute).",
+            "8. Use common sense."
+        ]
+
+        embed.add_field(name="Rules", value="\n".join(rules), inline=False)
+        embed.set_footer(text="Mal's Services", icon_url=ctx.bot.user.avatar.url)
         embed.timestamp = discord.utils.utcnow()
-        
+
         await ctx.send(embed=embed)
 
     @discord.slash_command(name='setup_prices')
@@ -65,25 +43,25 @@ class fun(commands.Cog):
         )
 
         embed.add_field(
-            name="💩 ~~£10~~ **£5 - Minimal**",
+            name="💩 ~~£15~~ **£10 - Minimal**",
             value="A very simple Discord bot designed to do one or two specific tasks.",
             inline=False
         )
 
         embed.add_field(
-            name="💵 ~~£15~~ **£10 - Basic**",
+            name="💵 ~~£20~~ **£15 - Basic**",
             value="A basic Discord bot with a small/medium range of commands of your choosing.",
             inline=False
         )
 
         embed.add_field(
-            name="💎 ~~£20~~ **£15 - Pro**",
+            name="💎 ~~£40~~ **£30 - Pro**",
             value="A complex and large bot, great for big/growing servers. Plus custom features tailored for your server.",
             inline=False
         )
 
         embed.add_field(
-            name="🚀 ~~£35~~ **£25 - Advanced**",
+            name="🚀 ~~£60~~ **£50 - Advanced**",
             value="An advanced, complex bot with lots of custom features. Suited for the most specific systems.",
             inline=False
         )
