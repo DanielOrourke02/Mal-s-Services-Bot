@@ -7,9 +7,9 @@ class Stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.guild_id = 1195701894937583716  
-        self.total_members_channel_id = 1312458448021225654  
-        self.human_members_channel_id = 1312458448499114015  
-        self.bot_members_channel_id = 1312458467457372211 
+        self.total_members_channel_id = 1359083337133588500  
+        self.human_members_channel_id = 1359083353134989442  
+        self.bot_members_channel_id = 1359083364803547216 
 
         self.update_stats.start()
 
