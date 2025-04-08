@@ -7,114 +7,61 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name="setup_rules")
+    @discord.slash_command(name="setup_rules", description="Sets up the server rules embed")
     @commands.has_permissions(administrator=True)
     async def setup_rules(self, ctx: discord.ApplicationContext):
-        embed = discord.Embed(
-            title="📜 Server Rules",
-            description="Follow these rules to keep the server a great place!",
-            color=discord.Color.blurple()
+        # Create the main embed
+        main_embed = discord.Embed(
+            title="📜 __Server Rules & Guidelines__",
+            description="Welcome to Mal's Services! To ensure everyone has a positive experience, please follow these rules:",
+            color=0x5865F2  # Discord Blurple
         )
-
+        
+        # Core Rules with emojis and better formatting
         rules = [
-            "1. Be respectful, toxic people are not wanted.",
-            "2. No spamming and no advertising.",
-            "3. NO NSFW content.",
-            "4. Try to follow channel topics.",
-            "5. Don't beg for money, it's annoying.",
-            "6. Spam pinging admins results in an instant ban.",
-            "7. Don't open a ticket and say nothing (kick/mute).",
-            "8. Use common sense."
+            "🤝 **Respect All Members**\n› Be kind and courteous to everyone\n› No harassment, discrimination, or hate speech\n› Respect others' opinions and backgrounds",
+            
+            "📢 **No Spamming or Advertising**\n› Don't flood channels with messages\n› No unsolicited advertising of any kind\n› No invite links to other servers without permission",
+            
+            "🔞 **No NSFW Content**\n› Keep all content PG-13\n› No explicit images, videos, or discussions\n› No references to adult content",
+            
+            "📝 **Channel Guidelines**\n› Post content in the appropriate channels\n› Read channel descriptions and topics\n› Don't derail conversations with off-topic content",
+            
+            "💰 **No Begging**\n› Don't ask for money, items, or free services\n› Don't repeatedly ask for giveaways\n› Contribute positively to the community",
+            
+            "⚠️ **Staff Respect**\n› Don't spam ping admins or moderators\n› Follow staff instructions when given\n› Direct concerns through appropriate channels",
+            
+            "🎫 **Ticket System**\n› Only open tickets when you have a legitimate issue\n› Provide clear information when opening a ticket\n› Be patient waiting for responses",
+            
+            "🧠 **Use Common Sense**\n› If something feels wrong, it probably is\n› When in doubt, ask a moderator\n› Rules cannot cover everything - use good judgment",
+            
+            "🛡️ **Security & Privacy**\n› Never share personal information\n› Don't attempt to scam or phish other members\n› Report suspicious activity to moderators",
+            
+            "🤖 **Bot Usage**\n› Don't abuse or spam bot commands\n› Use bot commands in the appropriate channels\n› Report any bot issues to staff"
         ]
-
-        embed.add_field(name="Rules", value="\n".join(rules), inline=False)
-        embed.set_footer(text="Mal's Services", icon_url=ctx.bot.user.avatar.url)
-        embed.timestamp = discord.utils.utcnow()
-
-        await ctx.send(embed=embed)
-
-    @discord.slash_command(name='setup_prices')
-    @commands.has_permissions(administrator=True)
-    async def setup_prices(self, ctx: discord.ApplicationContext):
-        embed = discord.Embed(
-            title="__**🌟 Discord Bot Services 🌟**__",
-            description="Choose from our variety of bot tiers tailored to your needs!",
-            color=discord.Color.gold()
+        
+        # Add rules in groups of 5 to avoid hitting the field limit
+        main_embed.add_field(name="__Core Rules__", value="\n\n".join(rules[:5]), inline=False)
+        main_embed.add_field(name="__Additional Guidelines__", value="\n\n".join(rules[5:]), inline=False)
+        
+        # Add enforcement information
+        enforcement = (
+            "**Minor violations**: Warning → Mute → Kick\n"
+            "**Serious violations**: Immediate ban\n"
+            "**Moderation decisions** are at the discretion of staff members\n"
+            "**Appeals** can be made through the ticket system\n\n"
+            "*By participating in this server, you agree to follow these rules.*"
         )
-
-        embed.add_field(
-            name="💩 ~~£15~~ **£10 - Minimal**",
-            value="A very simple Discord bot designed to do one or two specific tasks.",
-            inline=False
-        )
-
-        embed.add_field(
-            name="💵 ~~£20~~ **£15 - Basic**",
-            value="A basic Discord bot with a small/medium range of commands of your choosing.",
-            inline=False
-        )
-
-        embed.add_field(
-            name="💎 ~~£40~~ **£30 - Pro**",
-            value="A complex and large bot, great for big/growing servers. Plus custom features tailored for your server.",
-            inline=False
-        )
-
-        embed.add_field(
-            name="🚀 ~~£60~~ **£50 - Advanced**",
-            value="An advanced, complex bot with lots of custom features. Suited for the most specific systems.",
-            inline=False
-        )
-
-        embed.add_field(
-            name="**❓ Not sure about the tier?**",
-            value="> Just make a ticket and describe your bot!",
-            inline=False
-        )
-
-        embed.add_field(
-            name="__**🔥 Hot Deals 🔥**__",
-            value=(
-                "> 🎉 **Get 1 month hosting FREE** with the purchase of any bot tier.\n"
-                "> 🎉 **2 Months Free Hosting** by purchasing the Pro or Advanced tier.\n"
-                "> 🎉 **£10 for 3 months of hosting**"
-            ),
-            inline=False
-        )
-        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
-        embed.timestamp = discord.utils.utcnow()
-
-        await ctx.send(embed=embed)
-
-    @discord.slash_command(name='setup_hosting')
-    @commands.has_permissions(administrator=True)
-    async def setup_hosting(self, ctx: discord.ApplicationContext):
-        embed = discord.Embed(
-            title="__**⭐ Hosting Services ⭐**__",
-            description="I offer hosting for your Discord bot, inclusive of maintenance. This service includes addressing any disruptions and accommodating changes to commands, ensuring a seamless experience.",
-            color=discord.Color.gold()
-        )
-
-        embed.add_field(
-            name="💰 **£5 per month**",
-            value="> Reliable 24/7 hosting, with 24/7 customer support.",
-            inline=True
-        )
-
-        embed.add_field(
-            name="__**🔥 Hot Deals**__",
-            value=(
-                "> 🎉 **Get 1 month hosting FREE** with the purchase of any bot tier.\n"
-                "> 🎉 **2 Months Free Hosting** by purchasing the Pro or Advanced tier.\n"
-                "> 🎉 **£10 for 3 months of hosting**"
-            ),
-            inline=False
-        )
-        embed.set_footer(text=f"Mal's Services", icon_url=ctx.bot.user.avatar.url)
-        embed.timestamp = discord.utils.utcnow()
-
-        await ctx.send(embed=embed)
-
+        main_embed.add_field(name="__Enforcement__", value=enforcement, inline=False)
+        
+        # Add server information
+        main_embed.set_thumbnail(url=ctx.guild.icon.url if ctx.guild.icon else ctx.bot.user.avatar.url)
+        main_embed.set_footer(text="Mal's Services • Rules Last Updated", icon_url=ctx.bot.user.avatar.url)
+        main_embed.timestamp = discord.utils.utcnow()
+        
+        await ctx.respond("Rules embed has been created successfully!", ephemeral=True)
+        await ctx.send(embed=main_embed)
+        
     @discord.slash_command(name='meme')
     async def meme(self, ctx: discord.ApplicationContext):
         """Fetches a random meme."""

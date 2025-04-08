@@ -1,5 +1,3 @@
-
-
 from util.utilities import *
 
 
@@ -8,6 +6,7 @@ BAN_APPEAL_CATEGORY_ID = 1345070997216297053
 FAQ_CATEGORY_ID = 1307090109589356544
 GIVEAWAYS_CATEGORY_ID = 1345070998248099850 
 OTHER_CATEGORY_ID = 1307090153155723377
+STAFF_ROLE_ID = 1356863836082143272  # Added staff role ID
 
 class ConfirmCloseView(discord.ui.View):
     def __init__(self, ctx):
@@ -111,6 +110,11 @@ class TicketView(discord.ui.View):
                 interaction.user: discord.PermissionOverwrite(read_messages=True, send_messages=True),  # Allow access for ticket creator
                 guild.me: discord.PermissionOverwrite(read_messages=True, send_messages=True)  # Allow bot to read/send messages
             }
+            
+            # Allow staff role to access all tickets except Ban Appeal
+            staff_role = guild.get_role(STAFF_ROLE_ID)
+            if staff_role and self.selected_category != "Ban Appeal":
+                overwrites[staff_role] = discord.PermissionOverwrite(read_messages=True, send_messages=True)
 
             ticket_channel = await guild.create_text_channel(
                 name=f"{self.selected_category} Ticket - {interaction.user.name}",
@@ -147,8 +151,20 @@ class TicketActionsView(discord.ui.View):
 
     @discord.ui.button(label="Claim", style=discord.ButtonStyle.success, emoji="🔒")
     async def claim_ticket(self, button: discord.ui.Button, interaction: discord.Interaction):
-        if not interaction.user.guild_permissions.administrator:
-            await interaction.response.send_message("Only administrators can claim this ticket.", ephemeral=True)
+        # Check if user is admin or has staff role (except in Ban Appeal channels)
+        is_staff = interaction.user.guild_permissions.administrator or any(role.id == STAFF_ROLE_ID for role in interaction.user.roles)
+        
+        # Get category name from channel name
+        channel_name = interaction.channel.name.lower()
+        is_ban_appeal = "ban appeal" in channel_name
+        
+        # If it's a Ban Appeal ticket, only admins can claim it
+        if is_ban_appeal and not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("Only administrators can claim ban appeal tickets.", ephemeral=True)
+            return
+        # For other ticket types, check staff permissions
+        elif not is_ban_appeal and not is_staff:
+            await interaction.response.send_message("Only staff can claim this ticket.", ephemeral=True)
             return
         
         if self.claimed:
@@ -168,6 +184,25 @@ class TicketActionsView(discord.ui.View):
     
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, emoji="<:vsl_ticket:1304908762439745616>")
     async def close_ticket(self, button: discord.ui.Button, interaction: discord.Interaction):
+        # Check if user is admin or has staff role (except in Ban Appeal channels)
+        is_staff = interaction.user.guild_permissions.administrator or any(role.id == STAFF_ROLE_ID for role in interaction.user.roles)
+        
+        # Get category name from channel name
+        channel_name = interaction.channel.name.lower()
+        is_ban_appeal = "ban appeal" in channel_name
+        
+        # Check if user is the ticket creator
+        is_ticket_creator = interaction.user == self.user
+        
+        # If it's a Ban Appeal ticket, only admins or ticket creator can close it
+        if is_ban_appeal and not (interaction.user.guild_permissions.administrator or is_ticket_creator):
+            await interaction.response.send_message("Only administrators or the ticket creator can close ban appeal tickets.", ephemeral=True)
+            return
+        # For other ticket types, check staff permissions or if it's the ticket creator
+        elif not is_ban_appeal and not (is_staff or is_ticket_creator):
+            await interaction.response.send_message("Only staff or the ticket creator can close this ticket.", ephemeral=True)
+            return
+            
         await interaction.response.send_message(
             "Are you sure you want to close this ticket?", 
             ephemeral=True, 
@@ -259,6 +294,30 @@ class Tickets(commands.Cog):
                 await ctx.respond(embed=embed)
                 return
 
+            # Check if user is admin, has staff role, or is ticket creator
+            is_admin = ctx.author.guild_permissions.administrator
+            is_staff = any(role.id == STAFF_ROLE_ID for role in ctx.author.roles)
+            
+            # Get if it's a ban appeal ticket
+            is_ban_appeal = "ban appeal" in ctx.channel.name.lower()
+            
+            # For ban appeal tickets, only admins can use the close command
+            if is_ban_appeal and not is_admin:
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only administrators can close ban appeal tickets using this command.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+            # For other ticket types, staff can use the close command
+            elif not is_ban_appeal and not (is_admin or is_staff):
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only staff can close tickets using this command.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+
             embed = discord.Embed(
                 title="Close Ticket",
                 description="Are you sure you want to close this ticket? Press **Confirm** below to proceed.",
@@ -272,7 +331,32 @@ class Tickets(commands.Cog):
     @discord.slash_command(name='add')
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, user: discord.Member):
-        if "Ticket" or "ticket" in ctx.channel.name:
+        # Check if it's a ticket channel
+        if "Ticket" in ctx.channel.name or "ticket" in ctx.channel.name:
+            # Check if user is admin or has staff role (except in Ban Appeal channels)
+            is_admin = ctx.author.guild_permissions.administrator
+            is_staff = any(role.id == STAFF_ROLE_ID for role in ctx.author.roles)
+            
+            # Get if it's a ban appeal ticket
+            is_ban_appeal = "ban appeal" in ctx.channel.name.lower()
+            
+            # For ban appeal tickets, only admins can add users
+            if is_ban_appeal and not is_admin:
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only administrators can add users to ban appeal tickets.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+            # For other ticket types, staff can add users
+            elif not is_ban_appeal and not (is_admin or is_staff):
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only staff can add users to tickets.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+                
             await ctx.channel.set_permissions(user, read_messages=True, send_messages=True)
             
             embed = discord.Embed(
@@ -294,7 +378,32 @@ class Tickets(commands.Cog):
     @discord.slash_command(name='remove')
     @commands.has_permissions(administrator=True)
     async def remove(self, ctx, user: discord.Member):
-        if "Ticket" or "ticket" in ctx.channel.name:
+        # Check if it's a ticket channel
+        if "Ticket" in ctx.channel.name or "ticket" in ctx.channel.name:
+            # Check if user is admin or has staff role (except in Ban Appeal channels)
+            is_admin = ctx.author.guild_permissions.administrator
+            is_staff = any(role.id == STAFF_ROLE_ID for role in ctx.author.roles)
+            
+            # Get if it's a ban appeal ticket
+            is_ban_appeal = "ban appeal" in ctx.channel.name.lower()
+            
+            # For ban appeal tickets, only admins can remove users
+            if is_ban_appeal and not is_admin:
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only administrators can remove users from ban appeal tickets.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+            # For other ticket types, staff can remove users
+            elif not is_ban_appeal and not (is_admin or is_staff):
+                embed = discord.Embed(
+                    description="<a:denied:1302388701422288957> Only staff can remove users from tickets.",
+                    color=discord.Color.red()
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+                return
+                
             await ctx.channel.set_permissions(user, overwrite=None)
             
             embed = discord.Embed(

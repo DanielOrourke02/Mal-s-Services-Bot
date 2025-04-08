@@ -6,7 +6,7 @@ from util.utilities import *
 class JoinToCreate(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.create_channel_id = 1320361389365399613  # Replace with your Join to Create channel ID
+        self.create_channel_id = 1359081430466166878  # Replace with your Join to Create channel ID
         self.temp_channels = {}  # To keep track of created channels
 
     @commands.Cog.listener()

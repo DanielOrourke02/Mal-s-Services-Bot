@@ -21,6 +21,7 @@ class Stats(commands.Cog):
         try:
             guild = self.bot.get_guild(self.guild_id)
             if not guild:
+                print(f"Could not find guild with ID {self.guild_id}")
                 return
 
             total_members = guild.member_count
@@ -31,27 +32,45 @@ class Stats(commands.Cog):
             human_channel = guild.get_channel(self.human_members_channel_id)
             bot_channel = guild.get_channel(self.bot_members_channel_id)
 
-            # Update voice channels
+            # Check if channels exist
+            if not total_channel:
+                print(f"Could not find total members channel with ID {self.total_members_channel_id}")
+            if not human_channel:
+                print(f"Could not find human members channel with ID {self.human_members_channel_id}")
+            if not bot_channel:
+                print(f"Could not find bot members channel with ID {self.bot_members_channel_id}")
+
+            # Create permission overwrites
             overwrites = {
                 guild.default_role: discord.PermissionOverwrite(connect=False)  # Prevent members from joining
             }
 
+            # Update each channel if it exists
             if total_channel:
                 await total_channel.edit(
                     name=f"「👥」{total_members} Members",
                     overwrites=overwrites
                 )
+                print(f"Updated total members channel: {total_members} Members")
+                
             if human_channel:
                 await human_channel.edit(
                     name=f"「🧍」{human_members} Humans",
                     overwrites=overwrites
                 )
+                print(f"Updated human members channel: {human_members} Humans")
+                
             if bot_channel:
                 await bot_channel.edit(
                     name=f"「🤖」{bot_members} Bots",
                     overwrites=overwrites
                 )
+                print(f"Updated bot members channel: {bot_members} Bots")
 
+        except discord.Forbidden:
+            print(f"Error updating stats: Missing permissions to edit channels")
+        except discord.HTTPException as e:
+            print(f"Error updating stats: HTTP Exception: {e}")
         except Exception as e:
             print(f"Error updating stats: {e}")
 
@@ -60,17 +79,22 @@ class Stats(commands.Cog):
         await self.bot.wait_until_ready()
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Stats Cog Loaded! {Fore.RESET}')
-
-    @commands.Cog.listener()
     async def on_member_join(self, member):
         """Update stats immediately when a member joins"""
-        await self.update_stats()
+        if member.guild.id == self.guild_id:
+            print(f"Member joined: {member.name}. Updating stats...")
+            await self.update_stats()
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         """Update stats immediately when a member leaves"""
+        if member.guild.id == self.guild_id:
+            print(f"Member left: {member.name}. Updating stats...")
+            await self.update_stats()
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'{Fore.LIGHTGREEN_EX}{t}{Fore.LIGHTGREEN_EX} | Stats Cog Loaded! {Fore.RESET}')
         await self.update_stats()
 
 def setup(bot):

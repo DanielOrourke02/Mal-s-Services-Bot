@@ -6,7 +6,7 @@ from util.utilities import *
 class Verify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.message_id = 1320355645211545610
+        self.message_id = 1353121423077408819
 
     @discord.slash_command(name="setup_verify", description="Sets up the verification system")
     @commands.has_permissions(administrator=True)

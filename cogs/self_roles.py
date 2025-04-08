@@ -9,7 +9,8 @@ ROLE_LIST = {
     "<:Bot:1320352836105670676>": ("Bot", "Get notified for bot maintenance and outages."),
     "<:Giveaways:1320352823770087515>": ("Giveaways", "Get notified for giveaways."),
     "<a:PixelOrangeFire:1345069490135629956>": ("Events", "Get notified for server and bot events."),
-    "<:Server_Developer:1345069925495996567>": ("Polls", "Get notified for polls.")
+    "<:Server_Developer:1345069925495996567>": ("Polls", "Get notified for polls."),
+    "<a:pixel_clock:1359080720131162245>": ("Bump", "Get notified for server bump.")
 }
 
 class SelfRoles(commands.Cog):
