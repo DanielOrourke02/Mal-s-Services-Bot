@@ -16,7 +16,7 @@ ROLE_LIST = {
 class SelfRoles(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.message_id = 1345075009139245116
+        self.message_id = 1359084535102443671
 
     @discord.slash_command(name="setup_roles", description="Sends the self roles message")
     @commands.has_permissions(administrator=True)
